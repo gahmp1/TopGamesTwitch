@@ -10,7 +10,7 @@ import Foundation
 
 enum TopGames
 {
-    enum Fetch {
+    enum Service {
         struct Request
         {
             var url:String?
@@ -29,18 +29,51 @@ enum TopGames
         }
     }
     
-    enum Save {
-        struct Request
-        {
-            var nextUrl: String?
-            var listGames: [Games]?
+    enum CoreData {
+        
+        enum SaveUpdate {
+            struct Request
+            {
+                var nextUrl: String?
+                var listGames: [Games]?
+            }
+            struct Response
+            {
+                var games:RootTopGames?
+            }
+            struct ViewModel
+            {
+                var games:RootTopGames?
+            }
         }
-        struct Response
-        {
+        
+        enum Fetch {
+            struct Request
+            {
+            }
+            struct Response
+            {
+                var games:RootTopGames?
+            }
+            struct ViewModel
+            {
+                var games:RootTopGames?
+            }
         }
-        struct ViewModel
-        {
-            var games:RootTopGames?
+        
+        enum Delete {
+            struct Request
+            {
+            }
+            struct Response
+            {
+                var games:RootTopGames?
+            }
+            struct ViewModel
+            {
+                var games:RootTopGames?
+            }
         }
+        
     }
 }

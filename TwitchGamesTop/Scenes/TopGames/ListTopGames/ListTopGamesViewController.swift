@@ -7,7 +7,7 @@
 import UIKit
 
 protocol ListTopGamesDisplayLogic : class {
-    func displayFetchedTopGames(viewModel: TopGames.Fetch.ViewModel)
+    func displayFetchedTopGames(viewModel: TopGames.Service.ViewModel)
 }
 
 class ListTopGamesViewController: UIViewController {
@@ -25,7 +25,7 @@ class ListTopGamesViewController: UIViewController {
     var interactor: ListTopGamesBusinessLogic?
     var router: (NSObjectProtocol & ListTopGamesRoutingLogic)?
     let cellIdentifier = "ListTopGamesCell"
-    var gamesViewModel: TopGames.Fetch.ViewModel?
+    var gamesViewModel: TopGames.Service.ViewModel?
     var listGames = [Games]()
     
     
@@ -57,6 +57,7 @@ class ListTopGamesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        checkSavedTopGames()
         doFetchFirstTopGames()
     }
     
@@ -69,6 +70,8 @@ class ListTopGamesViewController: UIViewController {
     }
     
     func checkSavedTopGames() {
+        fetchListProductsInCoreData()
+        
         let title = String.loc("OFFLINE_DATA_TITLE")
         let message = String.loc("OFFLINE_DATA_TITLE_MESSAGE")
         let alert = UIAlertController.init(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -84,7 +87,7 @@ class ListTopGamesViewController: UIViewController {
     
     func doFetchFirstTopGames() {
         middleLoading.startAnimating()
-        var request = TopGames.Fetch.Request()
+        var request = TopGames.Service.Request()
         request.url = String.loc("FIRST_10_TOP_GAMES")
         listGames = [Games]()
         callRequest(request: request)
@@ -93,13 +96,12 @@ class ListTopGamesViewController: UIViewController {
     
     func doFetchNextTopGames() {
         bottomLoading.startAnimating()
-        var request = TopGames.Fetch.Request()
+        var request = TopGames.Service.Request()
         request.url = gamesViewModel?.games?._links.next
         callRequest(request: request)
     }
     
-    func callRequest(request: TopGames.Fetch.Request) {
-        
+    func callRequest(request: TopGames.Service.Request) {
         interactor?.fetchTopGames(request: request)
     }
     
@@ -112,10 +114,15 @@ class ListTopGamesViewController: UIViewController {
     }
     
     func saveListProductsInCoreData() {
-        var request = TopGames.Save.Request()
+        var request = TopGames.CoreData.SaveUpdate.Request()
         request.nextUrl = self.gamesViewModel?.games?._links.next ?? String.loc("FIRST_10_TOP_GAMES")
         request.listGames = self.listGames
-        self.interactor?.saveTopGames(request: request)
+        self.interactor?.saveUpdateTopGamesInCoreData(request: request)
+    }
+    
+    func fetchListProductsInCoreData() {
+        let request = TopGames.CoreData.Fetch.Request()
+        self.interactor?.fetchTopGamesInCoreData(request: request)
     }
     
     @IBAction func refreshAction(_ sender: Any) {
@@ -127,6 +134,7 @@ class ListTopGamesViewController: UIViewController {
     
 
 }
+
 //MARK: Collection view Data Source Delegate
 extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -165,7 +173,7 @@ extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionVi
 
 //MARK: Display Logic Delegate
 extension ListTopGamesViewController: ListTopGamesDisplayLogic {
-    func displayFetchedTopGames(viewModel: TopGames.Fetch.ViewModel) {
+    func displayFetchedTopGames(viewModel: TopGames.Service.ViewModel) {
         DispatchQueue.main.async {
             
             self.middleLoading.stopAnimating()

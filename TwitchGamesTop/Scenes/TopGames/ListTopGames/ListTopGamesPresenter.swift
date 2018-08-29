@@ -7,14 +7,33 @@
 import Foundation
 
 protocol ListTopGamesPresentationLogic {
-    func presentFetchedTopGames(response: TopGames.Fetch.Response)
+    func presentSavedUpdatedTopGamesInCoreData(response: TopGames.CoreData.SaveUpdate.Response)
+    func presentFetchedTopGamesInCoreData(response: TopGames.CoreData.Fetch.Response)
+    func presentDeletedTopGamesInCoreData(response: TopGames.CoreData.Delete.Response)
+    func presentFetchedTopGames(response: TopGames.Service.Response)
 }
 class ListTopGamesPresenter: ListTopGamesPresentationLogic {
     
     weak var viewController: ListTopGamesDisplayLogic?
     
-    func presentFetchedTopGames(response: TopGames.Fetch.Response) {
-        var viewModel = TopGames.Fetch.ViewModel()
+    //MARK: Core Data Methods
+    func presentSavedUpdatedTopGamesInCoreData(response: TopGames.CoreData.SaveUpdate.Response) {
+        
+    }
+    
+    func presentFetchedTopGamesInCoreData(response: TopGames.CoreData.Fetch.Response) {
+        
+    }
+    
+    func presentDeletedTopGamesInCoreData(response: TopGames.CoreData.Delete.Response) {
+        
+    }
+    
+    
+    
+    //MARK: Services Methods
+    func presentFetchedTopGames(response: TopGames.Service.Response) {
+        var viewModel = TopGames.Service.ViewModel()
         
         if response.noInternet{
             let title = String.loc("NO_INTERNET_ACCESS_ALERT_TITLE")

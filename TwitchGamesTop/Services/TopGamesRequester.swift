@@ -9,10 +9,31 @@ import Alamofire
 import CoreData
 
 class TopGamesRequester: ListTopGamesWorkerLogic {
-    func fetchTopGamesInCoreData() {
-        
+
+    //MARK: CoreData
+    func saveUpdateTopGamesInCoreData(url: String, listGames: [Games], completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
+        checkTopGamesInCoreData(url: url, listGames: listGames, completionHandler: completionHandler)
     }
-    func saveTopGamesInCoreData(url: String, listGames: [Games], completionHandler: @escaping FetchTopGamesCompletionHandler) {
+    
+    func checkTopGamesInCoreData(url: String, listGames: [Games], completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
+        let _ = hasDeletedTopGames()
+        saveTopGamesInCoreData(url: url, listGames: listGames, completionHandler: completionHandler)
+
+    }
+    
+    func fetchTopGamesInCoreData(completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
+        if let topGamesCoredata = findTopGamesInCoreData() {
+            completionHandler(TopGamesCoreDataWorkerResult.Success(result: topGamesCoredata))
+        } else {
+            completionHandler(TopGamesCoreDataWorkerResult.Finish(hasFinished: false))
+        }
+    }
+    
+    func deleteTopGamesInCoreData(completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
+        completionHandler(TopGamesCoreDataWorkerResult.Finish(hasFinished: hasDeletedTopGames()))
+    }
+    
+    private func saveTopGamesInCoreData(url: String, listGames: [Games], completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             let managedObjectContext = appDelegate.persistentContainer.viewContext
             if let topGamesCoredataDescription = NSEntityDescription.entity(forEntityName: "TopGamesCoredata", in: managedObjectContext) {
@@ -28,11 +49,50 @@ class TopGamesRequester: ListTopGamesWorkerLogic {
                         topGamesCoredata.addToGames(gameCoreData)
                     }
                 }
-                print(topGamesCoredata)
+                do {
+                    try managedObjectContext.save()
+                    completionHandler(TopGamesCoreDataWorkerResult.Success(result: topGamesCoredata))
+                } catch {
+                    print("Failed saving Top Games")
+                    completionHandler(TopGamesCoreDataWorkerResult.Finish(hasFinished: false))
+                    
+                }
             }
         }
     }
     
+    private func findTopGamesInCoreData() -> TopGamesCoredata? {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "TopGamesCoredata")
+        request.returnsObjectsAsFaults = false
+        do {
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+                let managedObjectContext = appDelegate.persistentContainer.viewContext
+                if let topGamesCoredata = try managedObjectContext.fetch(request).first as? TopGamesCoredata {
+                    return topGamesCoredata
+                }
+                return nil
+            }
+            
+        } catch {
+            print("Failed fetching Top Games")
+            return nil
+        }
+        return nil
+    }
+    
+    private func hasDeletedTopGames() -> Bool {
+        if let topGamesCoredata = findTopGamesInCoreData() {
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+                let managedObjectContext = appDelegate.persistentContainer.viewContext
+                managedObjectContext.delete(topGamesCoredata)
+                return topGamesCoredata.isDeleted
+            }
+        }
+        return false
+    }
+    
+    
+    //MARK: Services
     func fetchTopGames(url:String, completionHandler: @escaping FetchTopGamesCompletionHandler) {
         
         guard let url = URL(string: url) else {
