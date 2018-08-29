@@ -5,22 +5,36 @@
 //
 
 import Foundation
+import CoreData
 
 protocol ListTopGamesBusinessLogic {
-    func fetchTopGames(request:TopGames.Request)
+    func fetchTopGames(request:TopGames.Fetch.Request)
+    func saveTopGames(request: TopGames.Save.Request)
 }
 class ListTopGamesInteractor: ListTopGamesBusinessLogic {
+   
     
     //MARK: Properties
     var presenter: ListTopGamesPresentationLogic?
     var worker: ListTopGamesWorker?
     
-    //MARK: Fetch Top Games
-    func fetchTopGames(request: TopGames.Request) {
+    //MARK: Methods Interactor Top Games
+    func saveTopGames(request: TopGames.Save.Request) {
         worker = ListTopGamesWorker(topGamesEngine: TopGamesRequester())
-        var response = TopGames.Response()
+        var response = TopGames.Fetch.Response()
         
-        worker?.fetchTopGames(url:request.url ?? "https://api.twitch.tv/kraken/games/top?limit=10&offset=0", completionHandler: { (result) in
+        worker?.saveTopGamesInCoreData(url:request.nextUrl ?? String.loc("FIRST_10_TOP_GAMES"),listGames: request.listGames ?? [Games](), completionHandler: { (result) in
+        
+        
+        })
+        
+    }
+    
+    func fetchTopGames(request: TopGames.Fetch.Request) {
+        worker = ListTopGamesWorker(topGamesEngine: TopGamesRequester())
+        var response = TopGames.Fetch.Response()
+        
+        worker?.fetchTopGames(url:request.url ?? String.loc("FIRST_10_TOP_GAMES"), completionHandler: { (result) in
             switch result{
             case .Success(let games):
                 response.games = games

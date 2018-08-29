@@ -20,7 +20,6 @@
 		4461080021357F9B008F02F5 /* ListTopGamesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446107FF21357F9B008F02F5 /* ListTopGamesCell.swift */; };
 		446108032135882E008F02F5 /* TopGamesRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446108022135882E008F02F5 /* TopGamesRequester.swift */; };
 		4461080521358D15008F02F5 /* TopGamesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4461080421358D15008F02F5 /* TopGamesModels.swift */; };
-		4461080B2135944F008F02F5 /* CustomLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4461080A2135944F008F02F5 /* CustomLoading.swift */; };
 		4461080D21361088008F02F5 /* TopGamesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4461080C21361088008F02F5 /* TopGamesModel.swift */; };
 		4461080F21361873008F02F5 /* ListTopGamesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4461080E21361873008F02F5 /* ListTopGamesCell.xib */; };
 		4461081121362D3C008F02F5 /* TopGamesLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4461081021362D3C008F02F5 /* TopGamesLocalizable.strings */; };
@@ -44,7 +43,6 @@
 		446107FF21357F9B008F02F5 /* ListTopGamesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTopGamesCell.swift; sourceTree = "<group>"; };
 		446108022135882E008F02F5 /* TopGamesRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopGamesRequester.swift; sourceTree = "<group>"; };
 		4461080421358D15008F02F5 /* TopGamesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopGamesModels.swift; sourceTree = "<group>"; };
-		4461080A2135944F008F02F5 /* CustomLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoading.swift; sourceTree = "<group>"; };
 		4461080C21361088008F02F5 /* TopGamesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopGamesModel.swift; sourceTree = "<group>"; };
 		4461080E21361873008F02F5 /* ListTopGamesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListTopGamesCell.xib; sourceTree = "<group>"; };
 		4461081021362D3C008F02F5 /* TopGamesLocalizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = TopGamesLocalizable.strings; sourceTree = "<group>"; };
@@ -91,7 +89,6 @@
 				4461081221362D66008F02F5 /* Extensions */,
 				4461080621358D1D008F02F5 /* Models */,
 				4461080121358807008F02F5 /* Services */,
-				446108092135943D008F02F5 /* Utils */,
 				4450593C21357902005686D8 /* AppDelegate.swift */,
 				4450594621357903005686D8 /* Assets.xcassets */,
 				4450594821357903005686D8 /* LaunchScreen.storyboard */,
@@ -172,14 +169,6 @@
 				4461080721359170008F02F5 /* Resources */,
 			);
 			path = TopGames;
-			sourceTree = "<group>";
-		};
-		446108092135943D008F02F5 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				4461080A2135944F008F02F5 /* CustomLoading.swift */,
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 		4461081221362D66008F02F5 /* Extensions */ = {
@@ -350,7 +339,6 @@
 				446107FD21357C99008F02F5 /* ListTopGamesWorker.swift in Sources */,
 				4461080021357F9B008F02F5 /* ListTopGamesCell.swift in Sources */,
 				446107F621357B95008F02F5 /* ListTopGamesInteractor.swift in Sources */,
-				4461080B2135944F008F02F5 /* CustomLoading.swift in Sources */,
 				4450593D21357902005686D8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -428,7 +416,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -482,7 +470,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -496,12 +484,17 @@
 			baseConfigurationReference = BFFB10409CC86FA84A5A6497 /* Pods-TwitchGamesTop.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G77MYT7HW8;
 				INFOPLIST_FILE = TwitchGamesTop/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.br.TwitchGamesTop;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.br.TwitchGamesTop.joao.gabriel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -512,12 +505,17 @@
 			baseConfigurationReference = 9F01FE7C9DE0ED34C23030E0 /* Pods-TwitchGamesTop.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G77MYT7HW8;
 				INFOPLIST_FILE = TwitchGamesTop/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.br.TwitchGamesTop;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.br.TwitchGamesTop.joao.gabriel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

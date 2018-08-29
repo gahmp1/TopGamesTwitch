@@ -7,23 +7,27 @@
 import UIKit
 
 protocol ListTopGamesDisplayLogic : class {
-    func displayFetchedTopGames(viewModel: TopGames.ViewModel)
+    func displayFetchedTopGames(viewModel: TopGames.Fetch.ViewModel)
 }
 
 class ListTopGamesViewController: UIViewController {
 
-
+    
     //MARK: UI Properties
     @IBOutlet weak var informationLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-    var customLoading:CustomLoading!
-    
+    @IBOutlet weak var bottomLoadingView: UIView!
+    @IBOutlet weak var bottomLoadingHeight: NSLayoutConstraint!
+
+    @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
+    @IBOutlet weak var middleLoading: UIActivityIndicatorView!
     //MARK: Properties
     var interactor: ListTopGamesBusinessLogic?
     var router: (NSObjectProtocol & ListTopGamesRoutingLogic)?
     let cellIdentifier = "ListTopGamesCell"
-    var gamesViewModel: TopGames.ViewModel?
+    var gamesViewModel: TopGames.Fetch.ViewModel?
     var listGames = [Games]()
+    
     
     //MARK: Constructors
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -37,6 +41,7 @@ class ListTopGamesViewController: UIViewController {
     }
     
     private func setup() {
+        title = "List Top Games Twitch"
         let viewController = self
         let interactor = ListTopGamesInteractor()
         let presenter = ListTopGamesPresenter()
@@ -51,33 +56,78 @@ class ListTopGamesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
-        informationLabel.text = String.loc("NO_TOP_GAME_LIST_MESSAGE")
-        collectionView.register(UINib(nibName: "ListTopGamesCell", bundle: .main), forCellWithReuseIdentifier: "ListTopGamesCell")
-        doFetchTopGames()
+        setupView()
+        doFetchFirstTopGames()
     }
     
-    func doFetchTopGames() {
-        customLoading = CustomLoading(view: view)
-        customLoading.show()
-        let request = TopGames.Request()
+    func setupView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        informationLabel.text = String.loc("NO_TOP_GAME_LIST_MESSAGE")
+        collectionView.register(UINib(nibName: "ListTopGamesCell", bundle: .main), forCellWithReuseIdentifier: "ListTopGamesCell")
+        
+    }
+    
+    func checkSavedTopGames() {
+        let title = String.loc("OFFLINE_DATA_TITLE")
+        let message = String.loc("OFFLINE_DATA_TITLE_MESSAGE")
+        let alert = UIAlertController.init(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: String.loc("CANCEL_MESSAGE"), style: UIAlertActionStyle.default, handler: { (action) in
+        }))
+        alert.addAction(UIAlertAction(title: String.loc("ACCEPT_MESSAGE"), style: UIAlertActionStyle.default, handler: { (action) in
+            self.middleLoading.startAnimating()
+            self.doFetchFirstTopGames()
+        }))
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func doFetchFirstTopGames() {
+        middleLoading.startAnimating()
+        var request = TopGames.Fetch.Request()
+        request.url = String.loc("FIRST_10_TOP_GAMES")
+        listGames = [Games]()
+        callRequest(request: request)
+
+    }
+    
+    func doFetchNextTopGames() {
+        bottomLoading.startAnimating()
+        var request = TopGames.Fetch.Request()
+        request.url = gamesViewModel?.games?._links.next
+        callRequest(request: request)
+    }
+    
+    func callRequest(request: TopGames.Fetch.Request) {
+        
         interactor?.fetchTopGames(request: request)
     }
     
-    func configureView() {
+    func updateListGames() {
         if let games = self.gamesViewModel?.games?.top {
             for game in games {
                 self.listGames.append(game)
             }
-        self.collectionView.reloadData()
         }
+    }
+    
+    func saveListProductsInCoreData() {
+        var request = TopGames.Save.Request()
+        request.nextUrl = self.gamesViewModel?.games?._links.next ?? String.loc("FIRST_10_TOP_GAMES")
+        request.listGames = self.listGames
+        self.interactor?.saveTopGames(request: request)
+    }
+    
+    @IBAction func refreshAction(_ sender: Any) {
+        doFetchFirstTopGames()
+        self.collectionView?.scrollToItem(at: IndexPath(row: 0, section: 0),
+                                          at: .top,
+                                          animated: true)
     }
     
 
 }
-
+//MARK: Collection view Data Source Delegate
 extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.listGames.count
@@ -87,7 +137,11 @@ extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionVi
         guard let topGamesCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? ListTopGamesCell else {
             return UICollectionViewCell()
         }
-        topGamesCell.setup(game: self.listGames[indexPath.row].game)
+        if self.listGames.count > 0 {
+            if let game = self.listGames[indexPath.row].game {
+                topGamesCell.setup(game: game)
+            }
+        }
         return topGamesCell
     }
     
@@ -98,19 +152,31 @@ extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets.init(top: 2, left: 4, bottom: 2, right: 4)
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if collectionView.contentOffset.y >= (collectionView.contentSize.height - collectionView.frame.size.height) {
+            if bottomLoading.isAnimating == false && middleLoading.isAnimating == false {
+                doFetchNextTopGames()
+            }
+            
+        }
+    }
 }
 
 //MARK: Display Logic Delegate
 extension ListTopGamesViewController: ListTopGamesDisplayLogic {
-    func displayFetchedTopGames(viewModel: TopGames.ViewModel) {
+    func displayFetchedTopGames(viewModel: TopGames.Fetch.ViewModel) {
         DispatchQueue.main.async {
             
-            self.customLoading.hide()
+            self.middleLoading.stopAnimating()
+            self.bottomLoading.stopAnimating()
             
             if viewModel.games != nil {
                 self.collectionView.isHidden = false
                 self.gamesViewModel = viewModel
-                self.configureView()
+                self.updateListGames()
+                self.saveListProductsInCoreData()
+                self.collectionView.reloadData()
                 
             } else{
                 if self.listGames.count == 0 {
@@ -119,8 +185,9 @@ extension ListTopGamesViewController: ListTopGamesDisplayLogic {
                 if let title = viewModel.alertTitle,let message = viewModel.alertMessage{
                     let alert = UIAlertController.init(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { (action) in
-                        self.customLoading.show()
-                        self.doFetchTopGames()
+                        self.middleLoading.startAnimating()
+                        self.doFetchFirstTopGames()
+
                     }))
                     self.present(alert, animated: true, completion: nil)
                 }

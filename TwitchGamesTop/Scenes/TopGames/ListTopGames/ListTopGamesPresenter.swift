@@ -7,14 +7,14 @@
 import Foundation
 
 protocol ListTopGamesPresentationLogic {
-    func presentFetchedTopGames(response: TopGames.Response)
+    func presentFetchedTopGames(response: TopGames.Fetch.Response)
 }
 class ListTopGamesPresenter: ListTopGamesPresentationLogic {
     
     weak var viewController: ListTopGamesDisplayLogic?
     
-    func presentFetchedTopGames(response: TopGames.Response) {
-        var viewModel = TopGames.ViewModel()
+    func presentFetchedTopGames(response: TopGames.Fetch.Response) {
+        var viewModel = TopGames.Fetch.ViewModel()
         
         if response.noInternet{
             let title = String.loc("NO_INTERNET_ACCESS_ALERT_TITLE")

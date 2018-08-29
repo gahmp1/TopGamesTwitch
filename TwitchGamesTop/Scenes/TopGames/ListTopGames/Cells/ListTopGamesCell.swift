@@ -12,7 +12,7 @@ class ListTopGamesCell: UICollectionViewCell {
     //MARK: Properties
     @IBOutlet weak var gameLabel: UILabel!
     @IBOutlet weak var gameImageView: UIImageView!
-    
+    @IBOutlet weak var loadingView: UIActivityIndicatorView!
     var game: Game?
     
     //MARK: Setup
@@ -27,10 +27,9 @@ class ListTopGamesCell: UICollectionViewCell {
     
     private func fetchGameImage() {
         if let url = self.game?.logo.large {
-            let customLoading = CustomLoading(view: self)
-            customLoading.show()
+            loadingView.startAnimating()
             gameImageView.af_setImage(withURL: URL(string: url)!, filter: AspectScaledToFitSizeFilter(size: gameImageView.frame.size), imageTransition: .crossDissolve(0.2), completion: { (image) in
-                customLoading.hide()
+                self.loadingView.stopAnimating()
         })
         }
     }

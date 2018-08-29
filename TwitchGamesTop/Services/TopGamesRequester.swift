@@ -6,7 +6,32 @@
 
 import Foundation
 import Alamofire
+import CoreData
+
 class TopGamesRequester: ListTopGamesWorkerLogic {
+    func fetchTopGamesInCoreData() {
+        
+    }
+    func saveTopGamesInCoreData(url: String, listGames: [Games], completionHandler: @escaping FetchTopGamesCompletionHandler) {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let managedObjectContext = appDelegate.persistentContainer.viewContext
+            if let topGamesCoredataDescription = NSEntityDescription.entity(forEntityName: "TopGamesCoredata", in: managedObjectContext) {
+                let topGamesCoredata = TopGamesCoredata.init(entity: topGamesCoredataDescription, insertInto: managedObjectContext)
+                topGamesCoredata.nextUrl = url
+                for game in listGames {
+                    if let gameCoredataDescription = NSEntityDescription.entity(forEntityName: "GameCoredata", in: managedObjectContext) {
+                        let gameCoreData = GameCoredata(entity: gameCoredataDescription, insertInto: managedObjectContext)
+                        gameCoreData.channels = Int64(game.channels)
+                        gameCoreData.viewers = Int64(game.viewers)
+                        //gameCoreData.image = game.
+                        gameCoreData.name = game.game?.name ?? String.loc("NO_GAME_NAME")
+                        topGamesCoredata.addToGames(gameCoreData)
+                    }
+                }
+                print(topGamesCoredata)
+            }
+        }
+    }
     
     func fetchTopGames(url:String, completionHandler: @escaping FetchTopGamesCompletionHandler) {
         

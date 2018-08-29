@@ -26,10 +26,10 @@
             </objects>
             <point key="canvasLocation" x="684" y="725"/>
         </scene>
-        <!--List Top Games View Controller-->
+        <!--List-->
         <scene sceneID="rcV-aW-ArL">
             <objects>
-                <viewController id="CKZ-VZ-z7p" customClass="ListTopGamesViewController" customModule="TwitchGamesTop" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="List" id="CKZ-VZ-z7p" customClass="ListTopGamesViewController" customModule="TwitchGamesTop" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FxM-cw-y5k">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -54,33 +54,73 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cYL-0P-0lL">
+                                <rect key="frame" x="0.0" y="637" width="375" height="30"/>
+                                <subviews>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="M6v-hl-Jb1">
+                                        <rect key="frame" x="177" y="5" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="BFf-QF-7tI"/>
+                                            <constraint firstAttribute="height" constant="20" id="cJN-2C-SZq"/>
+                                        </constraints>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="M6v-hl-Jb1" firstAttribute="centerY" secondItem="cYL-0P-0lL" secondAttribute="centerY" id="0p3-1O-oUa"/>
+                                    <constraint firstItem="M6v-hl-Jb1" firstAttribute="centerX" secondItem="cYL-0P-0lL" secondAttribute="centerX" id="ZbF-VD-oAe"/>
+                                    <constraint firstAttribute="height" constant="30" id="myt-a8-PsL"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="SiV-t1-AnE">
+                                <rect key="frame" x="172" y="318" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="AkL-rg-6FS"/>
+                                    <constraint firstAttribute="width" constant="30" id="zAe-QE-dYl"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="SZg-Eh-0zl" firstAttribute="centerY" secondItem="FxM-cw-y5k" secondAttribute="centerY" constant="-30" id="BI6-OQ-9Ae"/>
                             <constraint firstItem="Hz0-N2-fon" firstAttribute="trailing" secondItem="bxX-L7-Zt9" secondAttribute="trailing" id="CYa-oi-t9S"/>
+                            <constraint firstItem="bxX-L7-Zt9" firstAttribute="bottom" secondItem="cYL-0P-0lL" secondAttribute="bottom" id="EGY-ME-cUC"/>
                             <constraint firstItem="SZg-Eh-0zl" firstAttribute="leading" secondItem="bxX-L7-Zt9" secondAttribute="leading" constant="16" id="HN3-Yg-1fy"/>
+                            <constraint firstItem="cYL-0P-0lL" firstAttribute="leading" secondItem="bxX-L7-Zt9" secondAttribute="leading" id="Hxu-qt-7lF"/>
+                            <constraint firstItem="SiV-t1-AnE" firstAttribute="centerY" secondItem="FxM-cw-y5k" secondAttribute="centerY" id="RpE-FP-Oe3"/>
                             <constraint firstItem="bxX-L7-Zt9" firstAttribute="trailing" secondItem="SZg-Eh-0zl" secondAttribute="trailing" constant="16" id="dI4-hD-mBF"/>
                             <constraint firstItem="Hz0-N2-fon" firstAttribute="top" secondItem="bxX-L7-Zt9" secondAttribute="top" id="fHc-HF-pyt"/>
                             <constraint firstItem="Hz0-N2-fon" firstAttribute="leading" secondItem="bxX-L7-Zt9" secondAttribute="leading" id="jaW-ZB-upA"/>
+                            <constraint firstItem="SiV-t1-AnE" firstAttribute="centerX" secondItem="FxM-cw-y5k" secondAttribute="centerX" id="q0W-R9-yXQ"/>
+                            <constraint firstItem="cYL-0P-0lL" firstAttribute="trailing" secondItem="bxX-L7-Zt9" secondAttribute="trailing" id="r3I-vu-IfF"/>
                             <constraint firstItem="bxX-L7-Zt9" firstAttribute="bottom" secondItem="Hz0-N2-fon" secondAttribute="bottom" id="w53-69-NIv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bxX-L7-Zt9"/>
                     </view>
-                    <navigationItem key="navigationItem" id="iO0-iK-LYN"/>
+                    <navigationItem key="navigationItem" id="iO0-iK-LYN">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="U55-Gi-NcY">
+                            <connections>
+                                <action selector="refreshAction:" destination="CKZ-VZ-z7p" id="ouR-mg-Bqs"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="bottomLoading" destination="M6v-hl-Jb1" id="Yyj-UD-nac"/>
+                        <outlet property="bottomLoadingHeight" destination="myt-a8-PsL" id="Dge-9P-n8T"/>
+                        <outlet property="bottomLoadingView" destination="cYL-0P-0lL" id="eLX-pl-ICo"/>
                         <outlet property="collectionView" destination="Hz0-N2-fon" id="CRg-Gx-q8e"/>
                         <outlet property="informationLabel" destination="SZg-Eh-0zl" id="2ie-sq-rug"/>
+                        <outlet property="middleLoading" destination="SiV-t1-AnE" id="Jgf-Gw-sS6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AH6-Cu-bMd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1637.5999999999999" y="767.76611694152928"/>
         </scene>
-        <!--View Controller-->
+        <!--Detail-->
         <scene sceneID="7zp-Rp-p4Z">
             <objects>
-                <viewController id="3Ri-t3-Vmu" sceneMemberID="viewController">
+                <viewController title="Detail" id="3Ri-t3-Vmu" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="o6e-zW-2Ss">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

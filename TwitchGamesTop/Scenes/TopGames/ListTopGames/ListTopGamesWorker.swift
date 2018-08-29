@@ -14,6 +14,12 @@ class ListTopGamesWorker {
         self.topGamesEngine = topGamesEngine
     }
     
+    func saveTopGamesInCoreData(url:String,listGames:[Games], completionHandler: @escaping FetchTopGamesCompletionHandler) {
+        self.topGamesEngine.saveTopGamesInCoreData(url: url, listGames: listGames) { (result) in
+            completionHandler(result)
+        }
+    }
+    
     func fetchTopGames(url:String, completionHandler: @escaping FetchTopGamesCompletionHandler) {
         self.topGamesEngine.fetchTopGames(url: url) { (result) in
             completionHandler(result)
@@ -23,6 +29,8 @@ class ListTopGamesWorker {
 
 //MARK: Protocol
 protocol ListTopGamesWorkerLogic {
+    func saveTopGamesInCoreData(url:String,listGames:[Games], completionHandler: @escaping FetchTopGamesCompletionHandler)
+    func fetchTopGamesInCoreData()
     func fetchTopGames(url:String, completionHandler: @escaping FetchTopGamesCompletionHandler)
 }
 

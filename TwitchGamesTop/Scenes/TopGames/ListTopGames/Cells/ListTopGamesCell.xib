@@ -31,13 +31,22 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="quo-YJ-Zbf">
+                        <rect key="frame" x="80" y="80" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="umz-ds-QyE"/>
+                            <constraint firstAttribute="height" constant="20" id="w6b-RR-FDD"/>
+                        </constraints>
+                    </activityIndicatorView>
                 </subviews>
             </view>
             <constraints>
+                <constraint firstItem="quo-YJ-Zbf" firstAttribute="centerX" secondItem="isu-yb-lQ2" secondAttribute="centerX" id="HyN-LH-ahe"/>
                 <constraint firstItem="xoY-fM-zzZ" firstAttribute="leading" secondItem="isu-yb-lQ2" secondAttribute="leading" constant="8" id="LaH-iG-BYh"/>
                 <constraint firstAttribute="bottom" secondItem="dU0-nG-IXJ" secondAttribute="bottom" id="dBg-dE-Q5X"/>
                 <constraint firstAttribute="trailing" secondItem="dU0-nG-IXJ" secondAttribute="trailing" id="i3J-cY-Yx1"/>
                 <constraint firstItem="dU0-nG-IXJ" firstAttribute="top" secondItem="xoY-fM-zzZ" secondAttribute="bottom" constant="8" id="kBj-UP-w5z"/>
+                <constraint firstItem="quo-YJ-Zbf" firstAttribute="centerY" secondItem="isu-yb-lQ2" secondAttribute="centerY" id="mck-Au-Djg"/>
                 <constraint firstItem="dU0-nG-IXJ" firstAttribute="leading" secondItem="isu-yb-lQ2" secondAttribute="leading" id="nFa-td-wps"/>
                 <constraint firstItem="xoY-fM-zzZ" firstAttribute="top" secondItem="isu-yb-lQ2" secondAttribute="top" constant="8" id="odk-un-yvh"/>
                 <constraint firstAttribute="trailing" secondItem="xoY-fM-zzZ" secondAttribute="trailing" constant="8" id="tRr-Pc-NCu"/>
@@ -47,6 +56,7 @@
             <connections>
                 <outlet property="gameImageView" destination="dU0-nG-IXJ" id="qn2-eN-L09"/>
                 <outlet property="gameLabel" destination="xoY-fM-zzZ" id="S6Y-D4-rCD"/>
+                <outlet property="loadingView" destination="quo-YJ-Zbf" id="dsh-hr-nj8"/>
             </connections>
         </collectionViewCell>
     </objects>

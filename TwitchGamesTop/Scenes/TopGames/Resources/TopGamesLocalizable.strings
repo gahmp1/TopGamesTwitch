@@ -7,3 +7,9 @@
 "NO_INTERNET_ACCESS_ALERT_TITLE" = "Sem internet";
 "NO_INTERNET_ACCESS_ALERT_MESSAGE" = "Ligue a internet e tente novamente";
 "NO_TOP_GAME_LIST_MESSAGE" = "Nenhum Jogo foi listado até agora.";
+"FIRST_10_TOP_GAMES" = "https://api.twitch.tv/kraken/games/top?limit=10&offset=0";
+"OFFLINE_DATA_TITLE" = "Dados Offline";
+"OFFLINE_DATA_TITLE_MESSAGE" = "Deseja recarregar seus Jogos Salvos?";
+"CANCEL_MESSAGE" = "Não";
+"ACCEPT_MESSAGE" = "Sim";
+"NO_GAME_NAME" = "Produto Sem Nome";

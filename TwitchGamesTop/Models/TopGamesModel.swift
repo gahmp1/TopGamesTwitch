@@ -9,7 +9,7 @@ struct Games:Codable,Equatable {
     
     var channels: Int
     var viewers: Int
-    var game: Game
+    var game: Game?
 
 }
 
