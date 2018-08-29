@@ -16,24 +16,14 @@ struct Games:Codable,Equatable {
 struct Game:Codable,Equatable {
     var name: String
     var logo: Logo
-    var box: Box
+
 }
 
 struct Logo:Codable,Equatable
 {
     var large:String
-    var medium:String
-    var small:String
-    var template:String
 }
 
-struct Box:Codable,Equatable
-{
-    var large:String
-    var medium:String
-    var small:String
-    var template:String
-}
 
 struct Links:Codable,Equatable
 {
@@ -44,7 +34,6 @@ struct Links:Codable,Equatable
 struct RootTopGames:Codable,Equatable
 {
     var _links: Links
-    var _total: Int
     var top:[Games]
 }
 

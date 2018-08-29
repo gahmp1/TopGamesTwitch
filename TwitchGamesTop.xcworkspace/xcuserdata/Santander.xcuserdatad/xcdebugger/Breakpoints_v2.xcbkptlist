@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TwitchGamesTop/Services/TopGamesRequester.swift"
-            timestampString = "557262151.891816"
+            timestampString = "557265095.47628"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "parseCell(data:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TwitchGamesTop/Scenes/TopGames/ListTopGames/ListTopGamesViewController.swift"
-            timestampString = "557262151.8922499"
+            timestampString = "557265095.4767081"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TwitchGamesTop/Services/TopGamesRequester.swift"
-            timestampString = "557262181.648164"
+            timestampString = "557265242.151644"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "findTopGamesInCoreData()"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "deleteTopGamesInCoreData(completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

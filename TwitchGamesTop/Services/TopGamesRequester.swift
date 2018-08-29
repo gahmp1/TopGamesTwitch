@@ -23,7 +23,11 @@ class TopGamesRequester: ListTopGamesWorkerLogic {
     
     func fetchTopGamesInCoreData(completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
         if let topGamesCoredata = findTopGamesInCoreData() {
-            completionHandler(TopGamesCoreDataWorkerResult.Success(result: topGamesCoredata))
+            if let rootTopGames = convertCoreDataToRootTopGames(topGamesCoredata: topGamesCoredata) {
+                completionHandler(TopGamesCoreDataWorkerResult.Success(result: rootTopGames))
+                return
+            }
+            completionHandler(TopGamesCoreDataWorkerResult.Finish(hasFinished: false))
         } else {
             completionHandler(TopGamesCoreDataWorkerResult.Finish(hasFinished: false))
         }
@@ -44,6 +48,7 @@ class TopGamesRequester: ListTopGamesWorkerLogic {
                         let gameCoreData = GameCoredata(entity: gameCoredataDescription, insertInto: managedObjectContext)
                         gameCoreData.channels = Int64(game.channels)
                         gameCoreData.viewers = Int64(game.viewers)
+                        gameCoreData.logoLarge = game.game?.logo.large
                         //gameCoreData.image = game.
                         gameCoreData.name = game.game?.name ?? String.loc("NO_GAME_NAME")
                         topGamesCoredata.addToGames(gameCoreData)
@@ -51,7 +56,11 @@ class TopGamesRequester: ListTopGamesWorkerLogic {
                 }
                 do {
                     try managedObjectContext.save()
-                    completionHandler(TopGamesCoreDataWorkerResult.Success(result: topGamesCoredata))
+                    if let rootTopGames = convertCoreDataToRootTopGames(topGamesCoredata: topGamesCoredata) {
+                        completionHandler(TopGamesCoreDataWorkerResult.Success(result: rootTopGames))
+                        return
+                    }
+                    completionHandler(TopGamesCoreDataWorkerResult.Finish(hasFinished: false))
                 } catch {
                     print("Failed saving Top Games")
                     completionHandler(TopGamesCoreDataWorkerResult.Finish(hasFinished: false))
@@ -59,6 +68,17 @@ class TopGamesRequester: ListTopGamesWorkerLogic {
                 }
             }
         }
+    }
+    
+    private func convertCoreDataToRootTopGames (topGamesCoredata: TopGamesCoredata) -> RootTopGames? {
+        var topGames = [Games]()
+        for gameCoreData in (topGamesCoredata.games!.allObjects as? [GameCoredata])! {
+            let game = Game(name: gameCoreData.name ?? String.loc("NO_GAME_NAME"), logo: Logo(large: gameCoreData.logoLarge ?? String.loc("DEFAULT_URL_IMAGE")))
+            let games = Games(channels: Int(gameCoreData.channels), viewers: Int(gameCoreData.viewers), game: game)
+            topGames.append(games)
+        }
+        let rootTopGames = RootTopGames(_links: Links(next: topGamesCoredata.nextUrl!), top: topGames)
+        return rootTopGames
     }
     
     private func findTopGamesInCoreData() -> TopGamesCoredata? {

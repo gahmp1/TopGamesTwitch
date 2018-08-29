@@ -8,6 +8,7 @@
 "NO_INTERNET_ACCESS_ALERT_MESSAGE" = "Ligue a internet e tente novamente";
 "NO_TOP_GAME_LIST_MESSAGE" = "Nenhum Jogo foi listado até agora.";
 "FIRST_10_TOP_GAMES" = "https://api.twitch.tv/kraken/games/top?limit=10&offset=0";
+"DEFAULT_URL_IMAGE" = "https://static-cdn.jtvnw.net/ttv-logoart/Hearthstone-240x144.jpg";
 "OFFLINE_DATA_TITLE" = "Dados Offline";
 "OFFLINE_DATA_TITLE_MESSAGE" = "Deseja recarregar seus Jogos Salvos?";
 "CANCEL_MESSAGE" = "Não";

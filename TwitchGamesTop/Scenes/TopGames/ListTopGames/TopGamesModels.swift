@@ -40,10 +40,13 @@ enum TopGames
             struct Response
             {
                 var games:RootTopGames?
+                var hasFinished:Bool = true
             }
             struct ViewModel
             {
                 var games:RootTopGames?
+                var alertTitle:String?
+                var alertMessage:String?
             }
         }
         
@@ -54,10 +57,13 @@ enum TopGames
             struct Response
             {
                 var games:RootTopGames?
+                var hasFinished:Bool = true
             }
             struct ViewModel
             {
                 var games:RootTopGames?
+                var alertTitle:String?
+                var alertMessage:String?
             }
         }
         
@@ -68,10 +74,13 @@ enum TopGames
             struct Response
             {
                 var games:RootTopGames?
+                var hasDeleted:Bool = true
             }
             struct ViewModel
             {
                 var games:RootTopGames?
+                var alertTitle:String?
+                var alertMessage:String?
             }
         }
         

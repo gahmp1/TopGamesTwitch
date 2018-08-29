@@ -8,6 +8,9 @@ import UIKit
 
 protocol ListTopGamesDisplayLogic : class {
     func displayFetchedTopGames(viewModel: TopGames.Service.ViewModel)
+    func displaySavedUpdateTopGamesCoreData(viewModel: TopGames.CoreData.SaveUpdate.ViewModel)
+    func displayFetchedTopGamesCoreData(viewModel: TopGames.CoreData.Fetch.ViewModel)
+    func displayDeletedTopGamesCoreData(viewModel: TopGames.CoreData.Delete.ViewModel)
 }
 
 class ListTopGamesViewController: UIViewController {
@@ -18,7 +21,8 @@ class ListTopGamesViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var bottomLoadingView: UIView!
     @IBOutlet weak var bottomLoadingHeight: NSLayoutConstraint!
-
+    @IBOutlet weak var topInformationViewHeight: NSLayoutConstraint!
+    
     @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
     @IBOutlet weak var middleLoading: UIActivityIndicatorView!
     //MARK: Properties
@@ -85,6 +89,19 @@ class ListTopGamesViewController: UIViewController {
         
     }
     
+    func saveListProductsInCoreData() {
+        var request = TopGames.CoreData.SaveUpdate.Request()
+        request.nextUrl = self.gamesViewModel?.games?._links.next ?? String.loc("FIRST_10_TOP_GAMES")
+        request.listGames = self.listGames
+        self.interactor?.saveUpdateTopGamesInCoreData(request: request)
+    }
+    
+    func fetchListProductsInCoreData() {
+        let request = TopGames.CoreData.Fetch.Request()
+        self.interactor?.fetchTopGamesInCoreData(request: request)
+    }
+    
+    
     func doFetchFirstTopGames() {
         middleLoading.startAnimating()
         var request = TopGames.Service.Request()
@@ -111,18 +128,6 @@ class ListTopGamesViewController: UIViewController {
                 self.listGames.append(game)
             }
         }
-    }
-    
-    func saveListProductsInCoreData() {
-        var request = TopGames.CoreData.SaveUpdate.Request()
-        request.nextUrl = self.gamesViewModel?.games?._links.next ?? String.loc("FIRST_10_TOP_GAMES")
-        request.listGames = self.listGames
-        self.interactor?.saveUpdateTopGamesInCoreData(request: request)
-    }
-    
-    func fetchListProductsInCoreData() {
-        let request = TopGames.CoreData.Fetch.Request()
-        self.interactor?.fetchTopGamesInCoreData(request: request)
     }
     
     @IBAction func refreshAction(_ sender: Any) {
@@ -173,6 +178,21 @@ extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionVi
 
 //MARK: Display Logic Delegate
 extension ListTopGamesViewController: ListTopGamesDisplayLogic {
+    
+    //MARK: Core Data Methods
+    func displaySavedUpdateTopGamesCoreData(viewModel: TopGames.CoreData.SaveUpdate.ViewModel) {
+        
+    }
+    
+    func displayFetchedTopGamesCoreData(viewModel: TopGames.CoreData.Fetch.ViewModel) {
+        
+    }
+    
+    func displayDeletedTopGamesCoreData(viewModel: TopGames.CoreData.Delete.ViewModel) {
+        
+    }
+    
+    //MARK: Services Methods
     func displayFetchedTopGames(viewModel: TopGames.Service.ViewModel) {
         DispatchQueue.main.async {
             

@@ -55,7 +55,8 @@ protocol ListTopGamesWorkerLogic {
 
 // MARK: - Typealias
 typealias FetchTopGamesCompletionHandler = (TopGamesWorkerResult<RootTopGames>) -> Void
-typealias FetchTopGamesCoreDataCompletionHandler = (TopGamesCoreDataWorkerResult<TopGamesCoredata>) -> Void
+typealias FetchTopGamesCoreDataCompletionHandler = (TopGamesCoreDataWorkerResult<RootTopGames>) -> Void
+
 // MARK: - Results
 enum TopGamesWorkerResult<U>
 {

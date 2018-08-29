@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -79,14 +78,26 @@
                                     <constraint firstAttribute="width" constant="30" id="zAe-QE-dYl"/>
                                 </constraints>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xcH-eC-kbM">
+                                <rect key="frame" x="0.0" y="64" width="375" height="0.0"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="Yb8-Ql-OmA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="xcH-eC-kbM" firstAttribute="leading" secondItem="bxX-L7-Zt9" secondAttribute="leading" id="6AY-N0-Wqb"/>
                             <constraint firstItem="SZg-Eh-0zl" firstAttribute="centerY" secondItem="FxM-cw-y5k" secondAttribute="centerY" constant="-30" id="BI6-OQ-9Ae"/>
                             <constraint firstItem="Hz0-N2-fon" firstAttribute="trailing" secondItem="bxX-L7-Zt9" secondAttribute="trailing" id="CYa-oi-t9S"/>
+                            <constraint firstItem="xcH-eC-kbM" firstAttribute="top" secondItem="bxX-L7-Zt9" secondAttribute="top" id="DzI-bL-c0B"/>
                             <constraint firstItem="bxX-L7-Zt9" firstAttribute="bottom" secondItem="cYL-0P-0lL" secondAttribute="bottom" id="EGY-ME-cUC"/>
                             <constraint firstItem="SZg-Eh-0zl" firstAttribute="leading" secondItem="bxX-L7-Zt9" secondAttribute="leading" constant="16" id="HN3-Yg-1fy"/>
                             <constraint firstItem="cYL-0P-0lL" firstAttribute="leading" secondItem="bxX-L7-Zt9" secondAttribute="leading" id="Hxu-qt-7lF"/>
+                            <constraint firstItem="bxX-L7-Zt9" firstAttribute="trailing" secondItem="xcH-eC-kbM" secondAttribute="trailing" id="RMC-HK-H8v"/>
                             <constraint firstItem="SiV-t1-AnE" firstAttribute="centerY" secondItem="FxM-cw-y5k" secondAttribute="centerY" id="RpE-FP-Oe3"/>
                             <constraint firstItem="bxX-L7-Zt9" firstAttribute="trailing" secondItem="SZg-Eh-0zl" secondAttribute="trailing" constant="16" id="dI4-hD-mBF"/>
                             <constraint firstItem="Hz0-N2-fon" firstAttribute="top" secondItem="bxX-L7-Zt9" secondAttribute="top" id="fHc-HF-pyt"/>
@@ -111,6 +122,7 @@
                         <outlet property="collectionView" destination="Hz0-N2-fon" id="CRg-Gx-q8e"/>
                         <outlet property="informationLabel" destination="SZg-Eh-0zl" id="2ie-sq-rug"/>
                         <outlet property="middleLoading" destination="SiV-t1-AnE" id="Jgf-Gw-sS6"/>
+                        <outlet property="topInformationViewHeight" destination="Yb8-Ql-OmA" id="fWg-sb-6E9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AH6-Cu-bMd" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -3,6 +3,7 @@
     <entity name="GameCoredata" representedClassName="GameCoredata" syncable="YES" codeGenerationType="class">
         <attribute name="channels" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="logoLarge" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="viewers" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="topGames" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TopGamesCoredata" inverseName="games" inverseEntity="TopGamesCoredata" syncable="YES"/>
@@ -12,7 +13,7 @@
         <relationship name="games" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GameCoredata" inverseName="topGames" inverseEntity="GameCoredata" syncable="YES"/>
     </entity>
     <elements>
+        <element name="GameCoredata" positionX="-144" positionY="135" width="128" height="135"/>
         <element name="TopGamesCoredata" positionX="-650" positionY="125" width="227" height="73"/>
-        <element name="GameCoredata" positionX="-144" positionY="135" width="128" height="118"/>
     </elements>
 </model>

@@ -29,10 +29,12 @@ class ListTopGamesInteractor: ListTopGamesBusinessLogic {
         worker?.fetchTopGamesInCoreData(completionHandler: { (result) in
             switch result {
                 
-            case .Success(let result):
+            case .Success(let rootTopGames):
+                response.games = rootTopGames
                 self.presenter?.presentFetchedTopGamesInCoreData(response: response)
                 break
             case .Finish(let hasFinished):
+                response.hasFinished = hasFinished
                 self.presenter?.presentFetchedTopGamesInCoreData(response: response)
                 break
             }
@@ -46,10 +48,12 @@ class ListTopGamesInteractor: ListTopGamesBusinessLogic {
         worker?.saveUpdateTopGamesInCoreData(url:request.nextUrl ?? String.loc("FIRST_10_TOP_GAMES"),listGames: request.listGames ?? [Games](), completionHandler: { (result) in
             switch result {
                 
-            case .Success(let result):
+            case .Success(let rootTopGames):
+                response.games = rootTopGames
                 self.presenter?.presentSavedUpdatedTopGamesInCoreData(response: response)
                 break
             case .Finish(let hasFinished):
+                response.hasFinished = hasFinished
                 self.presenter?.presentSavedUpdatedTopGamesInCoreData(response: response)
                 break
             }
@@ -63,11 +67,12 @@ class ListTopGamesInteractor: ListTopGamesBusinessLogic {
         worker?.deleteTopGamesInCoreData(completionHandler: { (result) in
             switch result {
                 
-            case .Success(let result):
-                //response.games = result
+            case .Success(let rootTopGames):
+                response.games = rootTopGames
                 self.presenter?.presentDeletedTopGamesInCoreData(response: response)
                 break
             case .Finish(let hasFinished):
+                response.hasDeleted = hasFinished
                 self.presenter?.presentDeletedTopGamesInCoreData(response: response)
                 break
             }
