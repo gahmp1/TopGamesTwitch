@@ -1,0 +1,9 @@
+/* 
+  TopGamesLocalizable.strings
+  TwitchGamesTop
+  Copyright © 2018 Joao Gabriel. All rights reserved.
+*/
+// MARK: NO INTERNET ALERT
+"NO_INTERNET_ACCESS_ALERT_TITLE" = "Sem internet";
+"NO_INTERNET_ACCESS_ALERT_MESSAGE" = "Ligue a internet e tente novamente";
+"NO_TOP_GAME_LIST_MESSAGE" = "Nenhum Jogo foi listado até agora.";
