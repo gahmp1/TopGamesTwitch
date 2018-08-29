@@ -31,9 +31,11 @@ class ListTopGamesInteractor: ListTopGamesBusinessLogic {
                 
             case .Success(let rootTopGames):
                 response.games = rootTopGames
+                response.hasFinished = true
                 self.presenter?.presentFetchedTopGamesInCoreData(response: response)
                 break
             case .Finish(let hasFinished):
+                response.games = nil
                 response.hasFinished = hasFinished
                 self.presenter?.presentFetchedTopGamesInCoreData(response: response)
                 break
@@ -50,9 +52,11 @@ class ListTopGamesInteractor: ListTopGamesBusinessLogic {
                 
             case .Success(let rootTopGames):
                 response.games = rootTopGames
+                response.hasFinished = true
                 self.presenter?.presentSavedUpdatedTopGamesInCoreData(response: response)
                 break
             case .Finish(let hasFinished):
+                response.games = nil
                 response.hasFinished = hasFinished
                 self.presenter?.presentSavedUpdatedTopGamesInCoreData(response: response)
                 break
@@ -69,10 +73,12 @@ class ListTopGamesInteractor: ListTopGamesBusinessLogic {
                 
             case .Success(let rootTopGames):
                 response.games = rootTopGames
+                response.hasDeleted = true
                 self.presenter?.presentDeletedTopGamesInCoreData(response: response)
                 break
             case .Finish(let hasFinished):
                 response.hasDeleted = hasFinished
+                response.games = nil
                 self.presenter?.presentDeletedTopGamesInCoreData(response: response)
                 break
             }

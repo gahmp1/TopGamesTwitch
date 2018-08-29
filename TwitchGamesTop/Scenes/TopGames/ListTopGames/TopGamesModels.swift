@@ -45,7 +45,6 @@ enum TopGames
             struct ViewModel
             {
                 var games:RootTopGames?
-                var alertTitle:String?
                 var alertMessage:String?
             }
         }
@@ -62,7 +61,6 @@ enum TopGames
             struct ViewModel
             {
                 var games:RootTopGames?
-                var alertTitle:String?
                 var alertMessage:String?
             }
         }
@@ -79,7 +77,6 @@ enum TopGames
             struct ViewModel
             {
                 var games:RootTopGames?
-                var alertTitle:String?
                 var alertMessage:String?
             }
         }

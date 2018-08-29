@@ -22,16 +22,17 @@ class ListTopGamesViewController: UIViewController {
     @IBOutlet weak var bottomLoadingView: UIView!
     @IBOutlet weak var bottomLoadingHeight: NSLayoutConstraint!
     @IBOutlet weak var topInformationViewHeight: NSLayoutConstraint!
-    
+    @IBOutlet weak var topInformationLabel: UILabel!
     @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
     @IBOutlet weak var middleLoading: UIActivityIndicatorView!
+    
     //MARK: Properties
     var interactor: ListTopGamesBusinessLogic?
     var router: (NSObjectProtocol & ListTopGamesRoutingLogic)?
     let cellIdentifier = "ListTopGamesCell"
     var gamesViewModel: TopGames.Service.ViewModel?
     var listGames = [Games]()
-    
+    var nextUrlCoreData = ""
     
     //MARK: Constructors
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -61,8 +62,7 @@ class ListTopGamesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        checkSavedTopGames()
-        doFetchFirstTopGames()
+        fetchListProductsInCoreData()
     }
     
     func setupView() {
@@ -72,22 +72,8 @@ class ListTopGamesViewController: UIViewController {
         collectionView.register(UINib(nibName: "ListTopGamesCell", bundle: .main), forCellWithReuseIdentifier: "ListTopGamesCell")
         
     }
+
     
-    func checkSavedTopGames() {
-        fetchListProductsInCoreData()
-        
-        let title = String.loc("OFFLINE_DATA_TITLE")
-        let message = String.loc("OFFLINE_DATA_TITLE_MESSAGE")
-        let alert = UIAlertController.init(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: String.loc("CANCEL_MESSAGE"), style: UIAlertActionStyle.default, handler: { (action) in
-        }))
-        alert.addAction(UIAlertAction(title: String.loc("ACCEPT_MESSAGE"), style: UIAlertActionStyle.default, handler: { (action) in
-            self.middleLoading.startAnimating()
-            self.doFetchFirstTopGames()
-        }))
-        self.present(alert, animated: true, completion: nil)
-        
-    }
     
     func saveListProductsInCoreData() {
         var request = TopGames.CoreData.SaveUpdate.Request()
@@ -98,6 +84,8 @@ class ListTopGamesViewController: UIViewController {
     
     func fetchListProductsInCoreData() {
         let request = TopGames.CoreData.Fetch.Request()
+        middleLoading.startAnimating()
+        self.collectionView.isHidden = true
         self.interactor?.fetchTopGamesInCoreData(request: request)
     }
     
@@ -107,18 +95,18 @@ class ListTopGamesViewController: UIViewController {
         var request = TopGames.Service.Request()
         request.url = String.loc("FIRST_10_TOP_GAMES")
         listGames = [Games]()
-        callRequest(request: request)
+        callFetchRequest(request: request)
 
     }
     
     func doFetchNextTopGames() {
         bottomLoading.startAnimating()
         var request = TopGames.Service.Request()
-        request.url = gamesViewModel?.games?._links.next
-        callRequest(request: request)
+        request.url = gamesViewModel?.games?._links.next ?? nextUrlCoreData
+        callFetchRequest(request: request)
     }
     
-    func callRequest(request: TopGames.Service.Request) {
+    func callFetchRequest(request: TopGames.Service.Request) {
         interactor?.fetchTopGames(request: request)
     }
     
@@ -130,12 +118,22 @@ class ListTopGamesViewController: UIViewController {
         }
     }
     
+    func callDeleteRequest() {
+        self.middleLoading.startAnimating()
+        self.collectionView.isHidden = true
+        let request = TopGames.CoreData.Delete.Request()
+        self.interactor?.deleteTopGamesInCoreData(request: request)
+    }
+    
     @IBAction func refreshAction(_ sender: Any) {
-        doFetchFirstTopGames()
         self.collectionView?.scrollToItem(at: IndexPath(row: 0, section: 0),
                                           at: .top,
                                           animated: true)
+        callDeleteRequest()
     }
+    
+    
+    
     
 
 }
@@ -166,6 +164,13 @@ extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionVi
         return UIEdgeInsets.init(top: 2, left: 4, bottom: 2, right: 4)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "TopGames", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "someViewController")
+        self.present(controller, animated: true, completion: nil)
+        
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if collectionView.contentOffset.y >= (collectionView.contentSize.height - collectionView.frame.size.height) {
             if bottomLoading.isAnimating == false && middleLoading.isAnimating == false {
@@ -178,18 +183,61 @@ extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionVi
 
 //MARK: Display Logic Delegate
 extension ListTopGamesViewController: ListTopGamesDisplayLogic {
+    private func showInformation(text:String) {
+        DispatchQueue.main.async {
+            self.topInformationLabel.text = text
+            self.topInformationViewHeight.constant = 30
+            UIView.animate(withDuration: 1) {
+                self.view.layoutIfNeeded()
+            }
+            let _ = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.dismissInformation), userInfo: nil, repeats: false)
+            
+        }
+    }
+    @objc func dismissInformation() {
+        self.topInformationLabel.text = ""
+        self.topInformationViewHeight.constant = 0
+        UIView.animate(withDuration: 1) {
+            self.view.layoutIfNeeded()
+        }
+    }
     
     //MARK: Core Data Methods
     func displaySavedUpdateTopGamesCoreData(viewModel: TopGames.CoreData.SaveUpdate.ViewModel) {
-        
+        showInformation(text: viewModel.alertMessage ?? "")
     }
     
     func displayFetchedTopGamesCoreData(viewModel: TopGames.CoreData.Fetch.ViewModel) {
-        
+        showInformation(text: viewModel.alertMessage ?? "")
+
+        if let games = viewModel.games?.top {
+            let title = String.loc("OFFLINE_DATA_TITLE")
+            let message = String.loc("OFFLINE_DATA_TITLE_MESSAGE")
+            let alert = UIAlertController.init(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: String.loc("CANCEL_MESSAGE"), style: UIAlertActionStyle.default, handler: { (action) in
+                self.callDeleteRequest()
+            }))
+            alert.addAction(UIAlertAction(title: String.loc("ACCEPT_MESSAGE"), style: UIAlertActionStyle.default, handler: { (action) in
+                self.listGames = games
+                if let nextUrl = viewModel.games?._links.next {
+                    self.nextUrlCoreData = nextUrl
+                }
+                self.collectionView.isHidden = false
+                self.middleLoading.stopAnimating()
+                self.collectionView.reloadData()
+                
+            }))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            doFetchFirstTopGames()
+        }
     }
     
     func displayDeletedTopGamesCoreData(viewModel: TopGames.CoreData.Delete.ViewModel) {
-        
+        showInformation(text: viewModel.alertMessage ?? "")
+        self.listGames = [Games]()
+        self.collectionView.reloadData()
+        self.doFetchFirstTopGames()
     }
     
     //MARK: Services Methods
