@@ -7,17 +7,25 @@
 import UIKit
 import Alamofire
 import AlamofireImage
+
+protocol ListTopGamesCellDelegate {
+    func imageDownloaded(image:String, index:Int)
+}
+
 class ListTopGamesCell: UICollectionViewCell {
     
     //MARK: Properties
     @IBOutlet weak var gameLabel: UILabel!
     @IBOutlet weak var gameImageView: UIImageView!
     @IBOutlet weak var loadingView: UIActivityIndicatorView!
+    var delegate: ListTopGamesCellDelegate?
     var game: Game?
+    var index: Int?
     
     //MARK: Setup
-    func setup(game: Game) {
+    func setup(game: Game, index: Int) {
         self.game = game
+        self.index = index
         self.gameLabel.text = self.game?.name
         layer.borderWidth = 1
         layer.borderColor = UIColor.lightGray.cgColor
@@ -28,9 +36,20 @@ class ListTopGamesCell: UICollectionViewCell {
     private func fetchGameImage() {
         if let url = self.game?.logo.large {
             loadingView.startAnimating()
-            gameImageView.af_setImage(withURL: URL(string: url)!, filter: AspectScaledToFitSizeFilter(size: gameImageView.frame.size), imageTransition: .crossDissolve(0.2), completion: { (image) in
+            gameImageView.af_setImage(withURL: URL(string: url)!, filter: AspectScaledToFitSizeFilter(size: gameImageView.frame.size), imageTransition: .crossDissolve(0.2), completion: { (imageResponse) in
                 self.loadingView.stopAnimating()
-        })
+                if let data = imageResponse.data {
+                    if let image = UIImage(data: data) {
+                        self.transformImageToString(image: image)
+                    }
+                }
+            })
         }
+    }
+    
+    private func transformImageToString(image:Image) {
+        let imageData: Data = UIImagePNGRepresentation(image)!
+        let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
+        self.delegate?.imageDownloaded(image: strBase64, index: self.index!)
     }
 }

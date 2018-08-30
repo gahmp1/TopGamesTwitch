@@ -5,12 +5,21 @@
 //
 
 import Foundation
-
+import UIKit
 protocol ListTopGamesRoutingLogic {
-    
+    func routeToDetailTopGame(game:Games)
 }
 class ListTopGamesRouter:NSObject, ListTopGamesRoutingLogic {
-        weak var viewController: ListTopGamesViewController?
+    weak var viewController: ListTopGamesViewController?
+    
+    //MARK: Routing
+    func routeToDetailTopGame(game:Games) {
+        let storyboard = UIStoryboard(name: "TopGames", bundle: nil)
+        if let controller = storyboard.instantiateViewController(withIdentifier: "DetailTopGameViewController") as? DetailTopGameViewController {
+            controller.game = game
+            viewController?.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
 }
 
 

@@ -6,8 +6,8 @@
 // MARK: NO INTERNET ALERT
 "NO_INTERNET_ACCESS_ALERT_TITLE" = "Sem internet";
 "NO_INTERNET_ACCESS_ALERT_MESSAGE" = "Ligue a internet e tente novamente";
-"NOT_SAVED_UPDATED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos não foi salva.";
-"SAVED_UPDATED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos foi salva com sucesso.";
+"NOT_SAVED_UPDATED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos não foi atualizada.";
+"SAVED_UPDATED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos foi atualizada com sucesso.";
 "NOT_FETCHED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos não foi encontrada.";
 "FETCHED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos foi encontrada com sucesso.";
 "NOT_DELETED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos não foi deletada.";
@@ -18,5 +18,6 @@
 "CANCEL_MESSAGE" = "Não";
 "ACCEPT_MESSAGE" = "Sim";
 "NO_GAME_NAME" = "Produto Sem Nome";
+"NO_DETAIL_GAME" = "Não foi possível carregar o detalhe do Jogo";
 "FIRST_10_TOP_GAMES" = "https://api.twitch.tv/kraken/games/top?limit=10&offset=0";
 "DEFAULT_URL_IMAGE" = "https://static-cdn.jtvnw.net/ttv-logoart/Hearthstone-240x144.jpg";

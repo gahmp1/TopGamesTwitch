@@ -25,6 +25,11 @@
 		4461081121362D3C008F02F5 /* TopGamesLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4461081021362D3C008F02F5 /* TopGamesLocalizable.strings */; };
 		4461081421362D82008F02F5 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4461081321362D82008F02F5 /* String+Extensions.swift */; };
 		44610818213763F7008F02F5 /* DetailTopGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44610817213763F7008F02F5 /* DetailTopGameViewController.swift */; };
+		4461081F21377236008F02F5 /* DetailTopGameInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4461081A21377236008F02F5 /* DetailTopGameInteractor.swift */; };
+		4461082021377236008F02F5 /* DetailTopGameWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4461081B21377236008F02F5 /* DetailTopGameWorker.swift */; };
+		4461082121377236008F02F5 /* DetailTopGamePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4461081C21377236008F02F5 /* DetailTopGamePresenter.swift */; };
+		4461082221377236008F02F5 /* DetailTopGameModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4461081D21377236008F02F5 /* DetailTopGameModels.swift */; };
+		446108252137748F008F02F5 /* DetailTopGameRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446108242137748F008F02F5 /* DetailTopGameRequester.swift */; };
 		AB97DC3AB24D6E856E0BBA5A /* Pods_TwitchGamesTop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CF148513CF08C283804502 /* Pods_TwitchGamesTop.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +54,11 @@
 		4461081021362D3C008F02F5 /* TopGamesLocalizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = TopGamesLocalizable.strings; sourceTree = "<group>"; };
 		4461081321362D82008F02F5 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		44610817213763F7008F02F5 /* DetailTopGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTopGameViewController.swift; sourceTree = "<group>"; };
+		4461081A21377236008F02F5 /* DetailTopGameInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTopGameInteractor.swift; sourceTree = "<group>"; };
+		4461081B21377236008F02F5 /* DetailTopGameWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTopGameWorker.swift; sourceTree = "<group>"; };
+		4461081C21377236008F02F5 /* DetailTopGamePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTopGamePresenter.swift; sourceTree = "<group>"; };
+		4461081D21377236008F02F5 /* DetailTopGameModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTopGameModels.swift; sourceTree = "<group>"; };
+		446108242137748F008F02F5 /* DetailTopGameRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTopGameRequester.swift; sourceTree = "<group>"; };
 		97CF148513CF08C283804502 /* Pods_TwitchGamesTop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TwitchGamesTop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F01FE7C9DE0ED34C23030E0 /* Pods-TwitchGamesTop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitchGamesTop.release.xcconfig"; path = "Pods/Target Support Files/Pods-TwitchGamesTop/Pods-TwitchGamesTop.release.xcconfig"; sourceTree = "<group>"; };
 		BFFB10409CC86FA84A5A6497 /* Pods-TwitchGamesTop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitchGamesTop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TwitchGamesTop/Pods-TwitchGamesTop.debug.xcconfig"; sourceTree = "<group>"; };
@@ -90,7 +100,6 @@
 				446107F021357B16008F02F5 /* Scenes */,
 				4461081221362D66008F02F5 /* Extensions */,
 				4461080621358D1D008F02F5 /* Models */,
-				4461080121358807008F02F5 /* Services */,
 				4450593C21357902005686D8 /* AppDelegate.swift */,
 				4450594621357903005686D8 /* Assets.xcassets */,
 				4450594821357903005686D8 /* LaunchScreen.storyboard */,
@@ -111,6 +120,7 @@
 		446107F121357B1E008F02F5 /* ListTopGames */ = {
 			isa = PBXGroup;
 			children = (
+				4461080121358807008F02F5 /* Services */,
 				446107FE21357F7A008F02F5 /* Cells */,
 				446107F321357B82008F02F5 /* ListTopGamesViewController.swift */,
 				446107F521357B95008F02F5 /* ListTopGamesInteractor.swift */,
@@ -125,6 +135,11 @@
 		446107F221357B24008F02F5 /* DetailTopGame */ = {
 			isa = PBXGroup;
 			children = (
+				4461082321377476008F02F5 /* Services */,
+				4461081A21377236008F02F5 /* DetailTopGameInteractor.swift */,
+				4461081D21377236008F02F5 /* DetailTopGameModels.swift */,
+				4461081C21377236008F02F5 /* DetailTopGamePresenter.swift */,
+				4461081B21377236008F02F5 /* DetailTopGameWorker.swift */,
 				44610817213763F7008F02F5 /* DetailTopGameViewController.swift */,
 			);
 			path = DetailTopGame;
@@ -180,6 +195,14 @@
 				4461081321362D82008F02F5 /* String+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4461082321377476008F02F5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				446108242137748F008F02F5 /* DetailTopGameRequester.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		646EF815F9626EC1C46DE883 /* Frameworks */ = {
@@ -336,6 +359,7 @@
 				44610818213763F7008F02F5 /* DetailTopGameViewController.swift in Sources */,
 				446107F421357B82008F02F5 /* ListTopGamesViewController.swift in Sources */,
 				4461080521358D15008F02F5 /* TopGamesModels.swift in Sources */,
+				446108252137748F008F02F5 /* DetailTopGameRequester.swift in Sources */,
 				446107FB21357BBA008F02F5 /* ListTopGamesRouter.swift in Sources */,
 				4450594521357902005686D8 /* TwitchGamesTop.xcdatamodeld in Sources */,
 				4461080D21361088008F02F5 /* TopGamesModel.swift in Sources */,
@@ -343,6 +367,10 @@
 				446107FD21357C99008F02F5 /* ListTopGamesWorker.swift in Sources */,
 				4461080021357F9B008F02F5 /* ListTopGamesCell.swift in Sources */,
 				446107F621357B95008F02F5 /* ListTopGamesInteractor.swift in Sources */,
+				4461081F21377236008F02F5 /* DetailTopGameInteractor.swift in Sources */,
+				4461082221377236008F02F5 /* DetailTopGameModels.swift in Sources */,
+				4461082121377236008F02F5 /* DetailTopGamePresenter.swift in Sources */,
+				4461082021377236008F02F5 /* DetailTopGameWorker.swift in Sources */,
 				4450593D21357902005686D8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

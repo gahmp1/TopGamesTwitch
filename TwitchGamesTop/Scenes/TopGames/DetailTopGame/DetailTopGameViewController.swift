@@ -7,33 +7,91 @@
 //
 
 import UIKit
+import Alamofire
+import AlamofireImage
+
+protocol DetailTopGameDisplayLogic : class {
+    func displayFetchedTopGames(viewModel: TopGameDetail.ViewModel)
+}
 
 class DetailTopGameViewController: UIViewController {
 
-    @IBOutlet weak var vieweresLabel: UILabel!
+    
+    //MARK: UI Properties
+    @IBOutlet weak var viewersLabel: UILabel!
     @IBOutlet weak var channelsLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var gameImageView: UIImageView!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var loadingView: UIActivityIndicatorView!
+    
+    //MARK: Properties
+    var interactor: DetailTopGameBusinessLogic?
+    var game : Games?
+    
+    //MARK: Constructors
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        setup()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
     }
-    */
+    
+    private func setup() {
+        title = "List Top Games Twitch"
+        let viewController = self
+        let interactor = DetailTopGameInteractor()
+        let presenter = DetailTopGamePresenter()
+        viewController.interactor = interactor
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.gameImageView.layer.cornerRadius = 10
+        self.loadingView.startAnimating()
+        let request = TopGameDetail.Request(game: game)
+        self.interactor?.fetchDetailTopGame(request: request)
+    }
 
+}
+
+extension DetailTopGameViewController: DetailTopGameDisplayLogic {
+    func displayFetchedTopGames(viewModel: TopGameDetail.ViewModel) {
+        if let error = viewModel.error {
+            self.errorLabel.text = error
+            self.errorLabel.isHidden = false
+        }
+        if let name = viewModel.games?.game?.name {
+            self.nameLabel.text = name
+        }
+        
+        if let image = viewModel.games?.game?.image {
+            let dataDecoded : Data = Data(base64Encoded: image, options: .ignoreUnknownCharacters)!
+            if let decodedimage = UIImage(data: dataDecoded) {
+                self.gameImageView.image = decodedimage
+                self.loadingView.stopAnimating()
+            }
+        } else {
+            if let url = viewModel.games?.game?.logo.large {
+                self.gameImageView.af_setImage(withURL: URL(string: url)!, filter: AspectScaledToFitSizeFilter(size: gameImageView.frame.size), imageTransition: .crossDissolve(0.2), completion: { (imageResponse) in
+                    self.loadingView.stopAnimating()
+                })
+            }
+        }
+        
+        if let channels = viewModel.games?.channels {
+            self.channelsLabel.text = String(format: "Channels: %i", arguments: [channels])
+        }
+        
+        if let viewers = viewModel.games?.viewers {
+            self.viewersLabel.text = String(format: "Viewers: %i", arguments: [viewers])
+        }
+        
+        
+    }
 }

@@ -31,7 +31,7 @@ class ListTopGamesViewController: UIViewController {
     var router: (NSObjectProtocol & ListTopGamesRoutingLogic)?
     let cellIdentifier = "ListTopGamesCell"
     var gamesViewModel: TopGames.Service.ViewModel?
-    var listGames = [Games]()
+    var listGames = [Games?]()
     var nextUrlCoreData = ""
     
     //MARK: Constructors
@@ -78,7 +78,9 @@ class ListTopGamesViewController: UIViewController {
     func saveListProductsInCoreData() {
         var request = TopGames.CoreData.SaveUpdate.Request()
         request.nextUrl = self.gamesViewModel?.games?._links.next ?? String.loc("FIRST_10_TOP_GAMES")
-        request.listGames = self.listGames
+        if let games = self.listGames as? [Games] {
+            request.listGames = games
+        }
         self.interactor?.saveUpdateTopGamesInCoreData(request: request)
     }
     
@@ -139,7 +141,7 @@ class ListTopGamesViewController: UIViewController {
 }
 
 //MARK: Collection view Data Source Delegate
-extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
+extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,ListTopGamesCellDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.listGames.count
     }
@@ -148,9 +150,10 @@ extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionVi
         guard let topGamesCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? ListTopGamesCell else {
             return UICollectionViewCell()
         }
+        topGamesCell.delegate = self
         if self.listGames.count > 0 {
-            if let game = self.listGames[indexPath.row].game {
-                topGamesCell.setup(game: game)
+            if let game = self.listGames[indexPath.row]?.game {
+                topGamesCell.setup(game: game, index: indexPath.row)
             }
         }
         return topGamesCell
@@ -165,10 +168,9 @@ extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "TopGames", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "someViewController")
-        self.present(controller, animated: true, completion: nil)
-        
+        if let game = self.listGames[indexPath.row]{
+            self.router?.routeToDetailTopGame(game: game)
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -179,6 +181,14 @@ extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionVi
             
         }
     }
+    
+    //MARK: Cell Delegate
+    func imageDownloaded(image: String, index: Int) {
+        self.listGames[index]?.game?.image = image
+        DispatchQueue.main.async {
+            self.saveListProductsInCoreData()
+        }
+    }
 }
 
 //MARK: Display Logic Delegate
@@ -187,17 +197,17 @@ extension ListTopGamesViewController: ListTopGamesDisplayLogic {
         DispatchQueue.main.async {
             self.topInformationLabel.text = text
             self.topInformationViewHeight.constant = 30
-            UIView.animate(withDuration: 1) {
+            UIView.animate(withDuration: 0.4) {
                 self.view.layoutIfNeeded()
             }
-            let _ = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.dismissInformation), userInfo: nil, repeats: false)
+            let _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.dismissInformation), userInfo: nil, repeats: false)
             
         }
     }
     @objc func dismissInformation() {
         self.topInformationLabel.text = ""
         self.topInformationViewHeight.constant = 0
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 0.4) {
             self.view.layoutIfNeeded()
         }
     }

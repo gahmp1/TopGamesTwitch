@@ -15,6 +15,7 @@ struct Games:Codable,Equatable {
 
 struct Game:Codable,Equatable {
     var name: String
+    var image: String?
     var logo: Logo
 
 }

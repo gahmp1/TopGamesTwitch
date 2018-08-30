@@ -49,7 +49,7 @@ class TopGamesRequester: ListTopGamesWorkerLogic {
                         gameCoreData.channels = Int64(game.channels)
                         gameCoreData.viewers = Int64(game.viewers)
                         gameCoreData.logoLarge = game.game?.logo.large
-                        //gameCoreData.image = game.
+                        gameCoreData.image = game.game?.image
                         gameCoreData.name = game.game?.name ?? String.loc("NO_GAME_NAME")
                         topGamesCoredata.addToGames(gameCoreData)
                     }
@@ -73,7 +73,7 @@ class TopGamesRequester: ListTopGamesWorkerLogic {
     private func convertCoreDataToRootTopGames (topGamesCoredata: TopGamesCoredata) -> RootTopGames? {
         var topGames = [Games]()
         for gameCoreData in (topGamesCoredata.games!.allObjects as? [GameCoredata])! {
-            let game = Game(name: gameCoreData.name ?? String.loc("NO_GAME_NAME"), logo: Logo(large: gameCoreData.logoLarge ?? String.loc("DEFAULT_URL_IMAGE")))
+            let game = Game(name: gameCoreData.name ?? String.loc("NO_GAME_NAME"), image: gameCoreData.image ?? "", logo: Logo(large: gameCoreData.logoLarge ?? String.loc("DEFAULT_URL_IMAGE")))
             let games = Games(channels: Int(gameCoreData.channels), viewers: Int(gameCoreData.viewers), game: game)
             topGames.append(games)
         }
