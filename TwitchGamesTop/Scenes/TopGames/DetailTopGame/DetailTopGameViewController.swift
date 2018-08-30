@@ -24,7 +24,8 @@ class DetailTopGameViewController: UIViewController {
     @IBOutlet weak var gameImageView: UIImageView!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var loadingView: UIActivityIndicatorView!
-    
+    @IBOutlet weak var contentView: UIView!
+
     //MARK: Properties
     var interactor: DetailTopGameBusinessLogic?
     var game : Games?
@@ -64,7 +65,7 @@ extension DetailTopGameViewController: DetailTopGameDisplayLogic {
     func displayFetchedTopGames(viewModel: TopGameDetail.ViewModel) {
         if let error = viewModel.error {
             self.errorLabel.text = error
-            self.errorLabel.isHidden = false
+            self.contentView.isHidden = true
         }
         if let name = viewModel.games?.game?.name {
             self.nameLabel.text = name
