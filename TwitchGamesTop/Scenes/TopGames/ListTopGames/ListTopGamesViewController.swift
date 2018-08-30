@@ -143,9 +143,11 @@ class ListTopGamesViewController: UIViewController {
     }
     
     @IBAction func refreshAction(_ sender: Any) {
-        self.collectionView?.scrollToItem(at: IndexPath(row: 0, section: 0),
+        if let _ = self.collectionView.cellForItem(at: IndexPath(row: 0, section: 0)){
+            self.collectionView?.scrollToItem(at: IndexPath(row: 0, section: 0),
                                           at: .top,
                                           animated: true)
+        }
         callDeleteRequest()
     }
     
@@ -225,17 +227,17 @@ extension ListTopGamesViewController: ListTopGamesDisplayLogic {
         DispatchQueue.main.async {
             self.topInformationLabel.text = text
             self.topInformationViewHeight.constant = 30
-            UIView.animate(withDuration: 0.4) {
+            UIView.animate(withDuration: 1.5) {
                 self.view.layoutIfNeeded()
             }
-            let _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.dismissInformation), userInfo: nil, repeats: false)
+            let _ = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.dismissInformation), userInfo: nil, repeats: false)
             
         }
     }
     @objc func dismissInformation() {
         self.topInformationLabel.text = ""
         self.topInformationViewHeight.constant = 0
-        UIView.animate(withDuration: 0.4) {
+        UIView.animate(withDuration: 1.5) {
             self.view.layoutIfNeeded()
         }
     }

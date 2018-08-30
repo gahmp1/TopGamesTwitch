@@ -10,7 +10,7 @@
 "SAVED_UPDATED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos foi atualizada com sucesso.";
 "NOT_FETCHED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos não foi encontrada.";
 "FETCHED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos foi encontrada com sucesso.";
-"NOT_DELETED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos não foi deletada.";
+"NOT_DELETED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos não foi deletada, ou não existe.";
 "DELETED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos foi deletada com sucesso.";
 "NO_TOP_GAME_LIST_MESSAGE" = "Nenhum Jogo foi listado até agora.";
 "OFFLINE_DATA_TITLE" = "Dados Offline";

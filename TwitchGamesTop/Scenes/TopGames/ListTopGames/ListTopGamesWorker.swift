@@ -82,7 +82,7 @@ enum TopGamesWorkerError: Error
 enum RequesterError: Error
 {
     case CannotFetch(Error)
-    case NoInternetAcces
+    case NoInternetAccess
     case WrongURLFormat
     case NoData
     case Default
