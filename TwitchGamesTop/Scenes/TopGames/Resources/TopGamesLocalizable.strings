@@ -15,6 +15,7 @@
 "NO_TOP_GAME_LIST_MESSAGE" = "Nenhum Jogo foi listado até agora.";
 "OFFLINE_DATA_TITLE" = "Dados Offline";
 "OFFLINE_DATA_TITLE_MESSAGE" = "Deseja carregar seus Jogos Salvos?";
+"OFFLINE_SAVE_DATA_TITLE_MESSAGE" = "Deseja salvar sua lista de Jogos?";
 "CANCEL_MESSAGE" = "Não";
 "ACCEPT_MESSAGE" = "Sim";
 "NO_GAME_NAME" = "Produto Sem Nome";

@@ -6,6 +6,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -44,7 +45,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Hz0-N2-fon">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="120" width="375" height="547"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="5" id="oVf-Is-add">
                                     <size key="itemSize" width="180" height="180"/>
@@ -80,7 +81,7 @@
                                 </constraints>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xcH-eC-kbM">
-                                <rect key="frame" x="0.0" y="64" width="375" height="0.0"/>
+                                <rect key="frame" x="0.0" y="120" width="375" height="0.0"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="Yb8-Ql-OmA"/>
                                 </constraints>
@@ -88,39 +89,54 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="RQm-bK-mt7">
+                                <rect key="frame" x="0.0" y="64" width="375" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="xcH-eC-kbM" firstAttribute="leading" secondItem="bxX-L7-Zt9" secondAttribute="leading" id="6AY-N0-Wqb"/>
                             <constraint firstItem="SZg-Eh-0zl" firstAttribute="centerY" secondItem="FxM-cw-y5k" secondAttribute="centerY" constant="-30" id="BI6-OQ-9Ae"/>
                             <constraint firstItem="Hz0-N2-fon" firstAttribute="trailing" secondItem="bxX-L7-Zt9" secondAttribute="trailing" id="CYa-oi-t9S"/>
-                            <constraint firstItem="xcH-eC-kbM" firstAttribute="top" secondItem="bxX-L7-Zt9" secondAttribute="top" id="DzI-bL-c0B"/>
                             <constraint firstItem="bxX-L7-Zt9" firstAttribute="bottom" secondItem="cYL-0P-0lL" secondAttribute="bottom" id="EGY-ME-cUC"/>
                             <constraint firstItem="SZg-Eh-0zl" firstAttribute="leading" secondItem="bxX-L7-Zt9" secondAttribute="leading" constant="16" id="HN3-Yg-1fy"/>
                             <constraint firstItem="cYL-0P-0lL" firstAttribute="leading" secondItem="bxX-L7-Zt9" secondAttribute="leading" id="Hxu-qt-7lF"/>
                             <constraint firstItem="Hz0-N2-fon" firstAttribute="top" secondItem="xcH-eC-kbM" secondAttribute="bottom" id="IXf-Sn-2y3"/>
+                            <constraint firstItem="xcH-eC-kbM" firstAttribute="top" secondItem="RQm-bK-mt7" secondAttribute="bottom" id="Jx8-1B-CIv"/>
                             <constraint firstItem="bxX-L7-Zt9" firstAttribute="trailing" secondItem="xcH-eC-kbM" secondAttribute="trailing" id="RMC-HK-H8v"/>
                             <constraint firstItem="SiV-t1-AnE" firstAttribute="centerY" secondItem="FxM-cw-y5k" secondAttribute="centerY" id="RpE-FP-Oe3"/>
                             <constraint firstItem="bxX-L7-Zt9" firstAttribute="trailing" secondItem="SZg-Eh-0zl" secondAttribute="trailing" constant="16" id="dI4-hD-mBF"/>
                             <constraint firstItem="Hz0-N2-fon" firstAttribute="leading" secondItem="bxX-L7-Zt9" secondAttribute="leading" id="jaW-ZB-upA"/>
                             <constraint firstItem="SiV-t1-AnE" firstAttribute="centerX" secondItem="FxM-cw-y5k" secondAttribute="centerX" id="q0W-R9-yXQ"/>
+                            <constraint firstItem="RQm-bK-mt7" firstAttribute="leading" secondItem="bxX-L7-Zt9" secondAttribute="leading" id="qRV-7P-QbH"/>
                             <constraint firstItem="cYL-0P-0lL" firstAttribute="trailing" secondItem="bxX-L7-Zt9" secondAttribute="trailing" id="r3I-vu-IfF"/>
+                            <constraint firstItem="RQm-bK-mt7" firstAttribute="trailing" secondItem="bxX-L7-Zt9" secondAttribute="trailing" id="vzc-nY-7ur"/>
                             <constraint firstItem="bxX-L7-Zt9" firstAttribute="bottom" secondItem="Hz0-N2-fon" secondAttribute="bottom" id="w53-69-NIv"/>
+                            <constraint firstItem="RQm-bK-mt7" firstAttribute="top" secondItem="FxM-cw-y5k" secondAttribute="top" constant="64" id="wDf-az-sA7"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bxX-L7-Zt9"/>
                     </view>
                     <navigationItem key="navigationItem" id="iO0-iK-LYN">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="U55-Gi-NcY">
-                            <connections>
-                                <action selector="refreshAction:" destination="CKZ-VZ-z7p" id="ouR-mg-Bqs"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="refresh" id="U55-Gi-NcY">
+                                <connections>
+                                    <action selector="refreshAction:" destination="CKZ-VZ-z7p" id="ouR-mg-Bqs"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="save" id="i1G-r9-GzT">
+                                <connections>
+                                    <action selector="saveCoreDataAction:" destination="CKZ-VZ-z7p" id="c85-Se-S4W"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="bottomLoading" destination="M6v-hl-Jb1" id="Yyj-UD-nac"/>
                         <outlet property="bottomLoadingHeight" destination="myt-a8-PsL" id="Dge-9P-n8T"/>
                         <outlet property="bottomLoadingView" destination="cYL-0P-0lL" id="eLX-pl-ICo"/>
                         <outlet property="collectionView" destination="Hz0-N2-fon" id="CRg-Gx-q8e"/>
+                        <outlet property="gameSearchBar" destination="RQm-bK-mt7" id="wtU-eC-lPs"/>
                         <outlet property="informationLabel" destination="SZg-Eh-0zl" id="2ie-sq-rug"/>
                         <outlet property="middleLoading" destination="SiV-t1-AnE" id="Jgf-Gw-sS6"/>
                         <outlet property="topInformationLabel" destination="xcH-eC-kbM" id="V0f-mt-Iww"/>

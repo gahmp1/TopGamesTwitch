@@ -25,6 +25,7 @@ class ListTopGamesViewController: UIViewController {
     @IBOutlet weak var topInformationLabel: UILabel!
     @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
     @IBOutlet weak var middleLoading: UIActivityIndicatorView!
+    @IBOutlet weak var gameSearchBar: UISearchBar!
     
     //MARK: Properties
     var interactor: ListTopGamesBusinessLogic?
@@ -32,6 +33,7 @@ class ListTopGamesViewController: UIViewController {
     let cellIdentifier = "ListTopGamesCell"
     var gamesViewModel: TopGames.Service.ViewModel?
     var listGames = [Games?]()
+    var listGamesChangeable = [Games?]()
     var nextUrlCoreData = ""
     
     //MARK: Constructors
@@ -68,12 +70,11 @@ class ListTopGamesViewController: UIViewController {
     func setupView() {
         collectionView.dataSource = self
         collectionView.delegate = self
+        gameSearchBar.delegate = self
         informationLabel.text = String.loc("NO_TOP_GAME_LIST_MESSAGE")
         collectionView.register(UINib(nibName: "ListTopGamesCell", bundle: .main), forCellWithReuseIdentifier: "ListTopGamesCell")
         
     }
-
-    
     
     func saveListProductsInCoreData() {
         var request = TopGames.CoreData.SaveUpdate.Request()
@@ -93,11 +94,12 @@ class ListTopGamesViewController: UIViewController {
     
     
     func doFetchFirstTopGames() {
-        middleLoading.startAnimating()
+        self.middleLoading.startAnimating()
         var request = TopGames.Service.Request()
         request.url = String.loc("FIRST_10_TOP_GAMES")
-        listGames = [Games]()
-        callFetchRequest(request: request)
+        self.listGames = [Games]()
+        self.listGamesChangeable = self.listGames
+        self.callFetchRequest(request: request)
 
     }
     
@@ -117,6 +119,7 @@ class ListTopGamesViewController: UIViewController {
             for game in games {
                 self.listGames.append(game)
             }
+            self.listGamesChangeable = self.listGames
         }
     }
     
@@ -125,6 +128,18 @@ class ListTopGamesViewController: UIViewController {
         self.collectionView.isHidden = true
         let request = TopGames.CoreData.Delete.Request()
         self.interactor?.deleteTopGamesInCoreData(request: request)
+    }
+    
+    //MARK: Actions
+    @IBAction func saveCoreDataAction(_ sender: Any) {
+        
+            let alert = UIAlertController.init(title: String.loc("OFFLINE_DATA_TITLE"), message: String.loc("OFFLINE_SAVE_DATA_TITLE_MESSAGE"), preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: String.loc("CANCEL_MESSAGE"), style: UIAlertActionStyle.default, handler: { (action) in }))
+        alert.addAction(UIAlertAction(title: String.loc("ACCEPT_MESSAGE"), style: UIAlertActionStyle.default, handler: { (action) in
+                self.saveListProductsInCoreData()
+            }))
+            self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func refreshAction(_ sender: Any) {
@@ -140,10 +155,26 @@ class ListTopGamesViewController: UIViewController {
 
 }
 
+//MARK: Search bar delegate
+extension ListTopGamesViewController: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText != "" {
+            let filteredGames = self.listGames.filter { ($0?.game?.name.contains(searchText))! }
+            self.listGamesChangeable = filteredGames
+        } else {
+            self.listGamesChangeable = self.listGames
+            view.endEditing(true)
+        }
+        self.collectionView.reloadData()
+    }
+}
+
+
 //MARK: Collection view Data Source Delegate
 extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,ListTopGamesCellDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.listGames.count
+        return self.listGamesChangeable.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -151,8 +182,8 @@ extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionVi
             return UICollectionViewCell()
         }
         topGamesCell.delegate = self
-        if self.listGames.count > 0 {
-            if let game = self.listGames[indexPath.row]?.game {
+        if self.listGamesChangeable.count > 0 {
+            if let game = self.listGamesChangeable[indexPath.row]?.game {
                 topGamesCell.setup(game: game, index: indexPath.row)
             }
         }
@@ -168,7 +199,7 @@ extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let game = self.listGames[indexPath.row]{
+        if let game = self.listGamesChangeable[indexPath.row]{
             self.router?.routeToDetailTopGame(game: game)
         }
     }
@@ -185,9 +216,6 @@ extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionVi
     //MARK: Cell Delegate
     func imageDownloaded(image: String, index: Int) {
         self.listGames[index]?.game?.image = image
-        DispatchQueue.main.async {
-            self.saveListProductsInCoreData()
-        }
     }
 }
 
@@ -229,6 +257,7 @@ extension ListTopGamesViewController: ListTopGamesDisplayLogic {
             }))
             alert.addAction(UIAlertAction(title: String.loc("ACCEPT_MESSAGE"), style: UIAlertActionStyle.default, handler: { (action) in
                 self.listGames = games
+                self.listGamesChangeable = self.listGames
                 if let nextUrl = viewModel.games?._links.next {
                     self.nextUrlCoreData = nextUrl
                 }
@@ -246,6 +275,7 @@ extension ListTopGamesViewController: ListTopGamesDisplayLogic {
     func displayDeletedTopGamesCoreData(viewModel: TopGames.CoreData.Delete.ViewModel) {
         showInformation(text: viewModel.alertMessage ?? "")
         self.listGames = [Games]()
+        self.listGamesChangeable = self.listGames
         self.collectionView.reloadData()
         self.doFetchFirstTopGames()
     }
@@ -261,11 +291,10 @@ extension ListTopGamesViewController: ListTopGamesDisplayLogic {
                 self.collectionView.isHidden = false
                 self.gamesViewModel = viewModel
                 self.updateListGames()
-                self.saveListProductsInCoreData()
                 self.collectionView.reloadData()
                 
             } else{
-                if self.listGames.count == 0 {
+                if self.listGamesChangeable.count == 0 {
                     self.collectionView.isHidden = true
                 }
                 if let title = viewModel.alertTitle,let message = viewModel.alertMessage{

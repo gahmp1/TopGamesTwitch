@@ -41,7 +41,7 @@ class DetailTopGameViewController: UIViewController {
     }
     
     private func setup() {
-        title = "List Top Games Twitch"
+        title = "Detail Top Game Twitch"
         let viewController = self
         let interactor = DetailTopGameInteractor()
         let presenter = DetailTopGamePresenter()
