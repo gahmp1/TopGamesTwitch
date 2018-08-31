@@ -9,6 +9,24 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
+		<key>TwitchGamesTopTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>4450593821357902005686D8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>446108292138BF9B008F02F5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>
