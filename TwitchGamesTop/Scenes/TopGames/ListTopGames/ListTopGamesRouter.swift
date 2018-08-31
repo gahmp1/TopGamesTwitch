@@ -7,13 +7,13 @@
 import Foundation
 import UIKit
 protocol ListTopGamesRoutingLogic {
-    func routeToDetailTopGame(game:Games)
+    func routeToDetailTopGame(game:Game)
 }
 class ListTopGamesRouter:NSObject, ListTopGamesRoutingLogic {
     weak var viewController: ListTopGamesViewController?
     
     //MARK: Routing
-    func routeToDetailTopGame(game:Games) {
+    func routeToDetailTopGame(game:Game) {
         let storyboard = UIStoryboard(name: "TopGames", bundle: nil)
         if let controller = storyboard.instantiateViewController(withIdentifier: "DetailTopGameViewController") as? DetailTopGameViewController {
             controller.game = game

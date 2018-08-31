@@ -15,7 +15,7 @@ class ListTopGamesWorker {
     }
     
     //MARK: Core Data Methods
-    func saveUpdateTopGamesInCoreData(url:String,listGames:[Games], completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
+    func saveUpdateTopGamesInCoreData(url:String,listGames:[Game], completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
         self.topGamesEngine.saveUpdateTopGamesInCoreData(url: url, listGames: listGames) { (result) in
             completionHandler(result)
         }
@@ -45,7 +45,7 @@ class ListTopGamesWorker {
 //MARK: Protocol
 protocol ListTopGamesWorkerLogic {
     //MARK: Core Data
-    func saveUpdateTopGamesInCoreData(url:String,listGames:[Games], completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler)
+    func saveUpdateTopGamesInCoreData(url:String,listGames:[Game], completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler)
     func deleteTopGamesInCoreData(completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler)
     func fetchTopGamesInCoreData(completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler)
     

@@ -19,14 +19,14 @@ class ListTopGamesCell: UICollectionViewCell {
     @IBOutlet weak var gameImageView: UIImageView!
     @IBOutlet weak var loadingView: UIActivityIndicatorView!
     var delegate: ListTopGamesCellDelegate?
-    var game: Game?
+    var gameInfo: GameInfo?
     var index: Int?
     
     //MARK: Setup
-    func setup(game: Game, index: Int) {
-        self.game = game
+    func setup(gameInfo: GameInfo, index: Int) {
+        self.gameInfo = gameInfo
         self.index = index
-        self.gameLabel.text = self.game?.name
+        self.gameLabel.text = self.gameInfo?.name
         layer.borderWidth = 1
         layer.borderColor = UIColor.lightGray.cgColor
         layer.cornerRadius = 4
@@ -34,7 +34,7 @@ class ListTopGamesCell: UICollectionViewCell {
     }
     
     private func fetchGameImage() {
-        if let url = self.game?.logo.large {
+        if let url = self.gameInfo?.logo.large {
             loadingView.startAnimating()
             gameImageView.af_setImage(withURL: URL(string: url)!, filter: AspectScaledToFitSizeFilter(size: gameImageView.frame.size), imageTransition: .crossDissolve(0.2), completion: { (imageResponse) in
                 self.loadingView.stopAnimating()

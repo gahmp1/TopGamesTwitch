@@ -28,7 +28,7 @@ class DetailTopGameViewController: UIViewController {
 
     //MARK: Properties
     var interactor: DetailTopGameBusinessLogic?
-    var game : Games?
+    var game : Game?
     
     //MARK: Constructors
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -67,29 +67,29 @@ extension DetailTopGameViewController: DetailTopGameDisplayLogic {
             self.errorLabel.text = error
             self.contentView.isHidden = true
         }
-        if let name = viewModel.games?.game?.name {
+        if let name = viewModel.game?.game?.name {
             self.nameLabel.text = name
         }
         
-        if let image = viewModel.games?.game?.image {
+        if let image = viewModel.game?.game?.image {
             let dataDecoded : Data = Data(base64Encoded: image, options: .ignoreUnknownCharacters)!
             if let decodedimage = UIImage(data: dataDecoded) {
                 self.gameImageView.image = decodedimage
                 self.loadingView.stopAnimating()
             }
         } else {
-            if let url = viewModel.games?.game?.logo.large {
+            if let url = viewModel.game?.game?.logo.large {
                 self.gameImageView.af_setImage(withURL: URL(string: url)!, filter: AspectScaledToFitSizeFilter(size: gameImageView.frame.size), imageTransition: .crossDissolve(0.2), completion: { (imageResponse) in
                     self.loadingView.stopAnimating()
                 })
             }
         }
         
-        if let channels = viewModel.games?.channels {
+        if let channels = viewModel.game?.channels {
             self.channelsLabel.text = String(format: "Channels: %i", arguments: [channels])
         }
         
-        if let viewers = viewModel.games?.viewers {
+        if let viewers = viewModel.game?.viewers {
             self.viewersLabel.text = String(format: "Viewers: %i", arguments: [viewers])
         }
         

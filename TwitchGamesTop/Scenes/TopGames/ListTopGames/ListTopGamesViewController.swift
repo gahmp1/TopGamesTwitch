@@ -32,8 +32,8 @@ class ListTopGamesViewController: UIViewController {
     var router: (NSObjectProtocol & ListTopGamesRoutingLogic)?
     let cellIdentifier = "ListTopGamesCell"
     var gamesViewModel: TopGames.Service.ViewModel?
-    var listGames = [Games?]()
-    var listGamesChangeable = [Games?]()
+    var listGames = [Game?]()
+    var listGamesChangeable = [Game?]()
     var nextUrlCoreData = ""
     
     //MARK: Constructors
@@ -78,8 +78,8 @@ class ListTopGamesViewController: UIViewController {
     
     func saveListProductsInCoreData() {
         var request = TopGames.CoreData.SaveUpdate.Request()
-        request.nextUrl = self.gamesViewModel?.games?._links.next ?? String.loc("FIRST_10_TOP_GAMES")
-        if let games = self.listGames as? [Games] {
+        request.nextUrl = self.gamesViewModel?.rootTopGames?._links.next ?? String.loc("FIRST_10_TOP_GAMES")
+        if let games = self.listGames as? [Game] {
             request.listGames = games
         }
         self.interactor?.saveUpdateTopGamesInCoreData(request: request)
@@ -97,7 +97,7 @@ class ListTopGamesViewController: UIViewController {
         self.middleLoading.startAnimating()
         var request = TopGames.Service.Request()
         request.url = String.loc("FIRST_10_TOP_GAMES")
-        self.listGames = [Games]()
+        self.listGames = [Game]()
         self.listGamesChangeable = self.listGames
         self.callFetchRequest(request: request)
 
@@ -106,7 +106,7 @@ class ListTopGamesViewController: UIViewController {
     func doFetchNextTopGames() {
         bottomLoading.startAnimating()
         var request = TopGames.Service.Request()
-        request.url = gamesViewModel?.games?._links.next ?? nextUrlCoreData
+        request.url = gamesViewModel?.rootTopGames?._links.next ?? nextUrlCoreData
         callFetchRequest(request: request)
     }
     
@@ -115,7 +115,7 @@ class ListTopGamesViewController: UIViewController {
     }
     
     func updateListGames() {
-        if let games = self.gamesViewModel?.games?.top {
+        if let games = self.gamesViewModel?.rootTopGames?.top {
             for game in games {
                 self.listGames.append(game)
             }
@@ -186,7 +186,7 @@ extension ListTopGamesViewController: UICollectionViewDataSource, UICollectionVi
         topGamesCell.delegate = self
         if self.listGamesChangeable.count > 0 {
             if let game = self.listGamesChangeable[indexPath.row]?.game {
-                topGamesCell.setup(game: game, index: indexPath.row)
+                topGamesCell.setup(gameInfo: game, index: indexPath.row)
             }
         }
         return topGamesCell
@@ -250,7 +250,7 @@ extension ListTopGamesViewController: ListTopGamesDisplayLogic {
     func displayFetchedTopGamesCoreData(viewModel: TopGames.CoreData.Fetch.ViewModel) {
         showInformation(text: viewModel.alertMessage ?? "")
 
-        if let games = viewModel.games?.top {
+        if let games = viewModel.rootTopGames?.top {
             let title = String.loc("OFFLINE_DATA_TITLE")
             let message = String.loc("OFFLINE_DATA_TITLE_MESSAGE")
             let alert = UIAlertController.init(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -260,7 +260,7 @@ extension ListTopGamesViewController: ListTopGamesDisplayLogic {
             alert.addAction(UIAlertAction(title: String.loc("ACCEPT_MESSAGE"), style: UIAlertActionStyle.default, handler: { (action) in
                 self.listGames = games
                 self.listGamesChangeable = self.listGames
-                if let nextUrl = viewModel.games?._links.next {
+                if let nextUrl = viewModel.rootTopGames?._links.next {
                     self.nextUrlCoreData = nextUrl
                 }
                 self.collectionView.isHidden = false
@@ -276,7 +276,7 @@ extension ListTopGamesViewController: ListTopGamesDisplayLogic {
     
     func displayDeletedTopGamesCoreData(viewModel: TopGames.CoreData.Delete.ViewModel) {
         showInformation(text: viewModel.alertMessage ?? "")
-        self.listGames = [Games]()
+        self.listGames = [Game]()
         self.listGamesChangeable = self.listGames
         self.collectionView.reloadData()
         self.doFetchFirstTopGames()
@@ -289,7 +289,7 @@ extension ListTopGamesViewController: ListTopGamesDisplayLogic {
             self.middleLoading.stopAnimating()
             self.bottomLoading.stopAnimating()
             
-            if viewModel.games != nil {
+            if viewModel.rootTopGames != nil {
                 self.collectionView.isHidden = false
                 self.gamesViewModel = viewModel
                 self.updateListGames()

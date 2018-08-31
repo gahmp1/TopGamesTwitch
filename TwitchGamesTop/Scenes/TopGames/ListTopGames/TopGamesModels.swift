@@ -17,12 +17,12 @@ enum TopGames
         }
         struct Response
         {
-            var games:RootTopGames?
+            var rootTopGames:RootTopGames?
             var noInternet:Bool = false
         }
         struct ViewModel
         {
-            var games:RootTopGames?
+            var rootTopGames:RootTopGames?
             
             var alertTitle:String?
             var alertMessage:String?
@@ -35,16 +35,16 @@ enum TopGames
             struct Request
             {
                 var nextUrl: String?
-                var listGames: [Games]?
+                var listGames: [Game]?
             }
             struct Response
             {
-                var games:RootTopGames?
+                var rootTopGames:RootTopGames?
                 var hasFinished:Bool = true
             }
             struct ViewModel
             {
-                var games:RootTopGames?
+                var rootTopGames:RootTopGames?
                 var alertMessage:String?
             }
         }
@@ -55,12 +55,12 @@ enum TopGames
             }
             struct Response
             {
-                var games:RootTopGames?
+                var rootTopGames:RootTopGames?
                 var hasFinished:Bool = true
             }
             struct ViewModel
             {
-                var games:RootTopGames?
+                var rootTopGames:RootTopGames?
                 var alertMessage:String?
             }
         }
@@ -71,12 +71,12 @@ enum TopGames
             }
             struct Response
             {
-                var games:RootTopGames?
+                var rootTopGames:RootTopGames?
                 var hasDeleted:Bool = true
             }
             struct ViewModel
             {
-                var games:RootTopGames?
+                var rootTopGames:RootTopGames?
                 var alertMessage:String?
             }
         }

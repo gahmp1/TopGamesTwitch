@@ -12,16 +12,16 @@ enum TopGameDetail
 {
     struct Request
     {
-        var game: Games?
+        var game: Game?
     }
     struct Response
     {
         var error : DetailTopGameWorkerError?
-        var games: Games?
+        var game: Game?
     }
     struct ViewModel
     {
         var error : String?
-        var games: Games?
+        var game: Game?
     }
 }

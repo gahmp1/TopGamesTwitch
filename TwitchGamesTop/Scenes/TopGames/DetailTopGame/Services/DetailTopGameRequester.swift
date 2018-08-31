@@ -9,7 +9,7 @@
 import Foundation
 
 class DetailTopGameRequester: DetailTopGameWorkerLogic {
-    func fetchDetailTopGame(game: Games, completionHandler: @escaping FetchDetailTopGameCompletionHandler) {
+    func fetchDetailTopGame(game: Game, completionHandler: @escaping FetchDetailTopGameCompletionHandler) {
         completionHandler(DetailTopGameWorkerResult.Success(result: game))
     }
 

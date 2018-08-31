@@ -30,12 +30,12 @@ class ListTopGamesInteractor: ListTopGamesBusinessLogic {
             switch result {
                 
             case .Success(let rootTopGames):
-                response.games = rootTopGames
+                response.rootTopGames = rootTopGames
                 response.hasFinished = true
                 self.presenter?.presentFetchedTopGamesInCoreData(response: response)
                 break
             case .Finish(let hasFinished):
-                response.games = nil
+                response.rootTopGames = nil
                 response.hasFinished = hasFinished
                 self.presenter?.presentFetchedTopGamesInCoreData(response: response)
                 break
@@ -47,16 +47,16 @@ class ListTopGamesInteractor: ListTopGamesBusinessLogic {
         worker = ListTopGamesWorker(topGamesEngine: TopGamesRequester())
         var response = TopGames.CoreData.SaveUpdate.Response()
         
-        worker?.saveUpdateTopGamesInCoreData(url:request.nextUrl ?? String.loc("FIRST_10_TOP_GAMES"),listGames: request.listGames ?? [Games](), completionHandler: { (result) in
+        worker?.saveUpdateTopGamesInCoreData(url:request.nextUrl ?? String.loc("FIRST_10_TOP_GAMES"),listGames: request.listGames ?? [Game](), completionHandler: { (result) in
             switch result {
                 
             case .Success(let rootTopGames):
-                response.games = rootTopGames
+                response.rootTopGames = rootTopGames
                 response.hasFinished = true
                 self.presenter?.presentSavedUpdatedTopGamesInCoreData(response: response)
                 break
             case .Finish(let hasFinished):
-                response.games = nil
+                response.rootTopGames = nil
                 response.hasFinished = hasFinished
                 self.presenter?.presentSavedUpdatedTopGamesInCoreData(response: response)
                 break
@@ -72,13 +72,13 @@ class ListTopGamesInteractor: ListTopGamesBusinessLogic {
             switch result {
                 
             case .Success(let rootTopGames):
-                response.games = rootTopGames
+                response.rootTopGames = rootTopGames
                 response.hasDeleted = true
                 self.presenter?.presentDeletedTopGamesInCoreData(response: response)
                 break
             case .Finish(let hasFinished):
                 response.hasDeleted = hasFinished
-                response.games = nil
+                response.rootTopGames = nil
                 self.presenter?.presentDeletedTopGamesInCoreData(response: response)
                 break
             }
@@ -92,8 +92,8 @@ class ListTopGamesInteractor: ListTopGamesBusinessLogic {
         
         worker?.fetchTopGames(url:request.url ?? String.loc("FIRST_10_TOP_GAMES"), completionHandler: { (result) in
             switch result{
-            case .Success(let games):
-                response.games = games
+            case .Success(let rootTopGames):
+                response.rootTopGames = rootTopGames
                 self.presenter?.presentFetchedTopGames(response: response)
                 break
             case .Failure(let error):
@@ -101,24 +101,24 @@ class ListTopGamesInteractor: ListTopGamesBusinessLogic {
                 case .RequestError(let requestError):
                     switch requestError{
                     case .NoInternetAccess:
-                        response.games = nil
+                        response.rootTopGames = nil
                         response.noInternet = true
                         self.presenter?.presentFetchedTopGames(response: response)
                         break
                     case .CannotFetch( _):
-                        response.games = nil
+                        response.rootTopGames = nil
                         response.noInternet = true
                         self.presenter?.presentFetchedTopGames(response: response)
                         break
                     default:
-                        response.games = nil
+                        response.rootTopGames = nil
                         response.noInternet = true
                         self.presenter?.presentFetchedTopGames(response: response)
                         break
                     }
                     break
                 default:
-                    response.games = nil
+                    response.rootTopGames = nil
                     self.presenter?.presentFetchedTopGames(response: response)
                     break
                 }

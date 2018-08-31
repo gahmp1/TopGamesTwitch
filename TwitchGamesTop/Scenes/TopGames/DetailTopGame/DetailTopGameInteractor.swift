@@ -26,12 +26,12 @@ class DetailTopGameInteractor: DetailTopGameBusinessLogic {
             worker?.fetchTopGames(game: game, completionHandler: { (result) in
                 switch result {
                     
-                case .Success(let games):
-                    response.games = games
+                case .Success(let game):
+                    response.game = game
                     self.presenter?.presentFetchedTopGames(response: response)
                     break
                 case .Failure(let error):
-                    response.games = nil
+                    response.game = nil
                     response.error = error
                     self.presenter?.presentFetchedTopGames(response: response)
                 }

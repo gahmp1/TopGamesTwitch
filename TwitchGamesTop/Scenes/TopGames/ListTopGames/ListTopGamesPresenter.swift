@@ -25,7 +25,7 @@ class ListTopGamesPresenter: ListTopGamesPresentationLogic {
             message = String.loc("NOT_SAVED_UPDATED_CORE_DATA_ALERT_MESSAGE")
         }
         viewModel.alertMessage = message
-        viewModel.games = response.games
+        viewModel.rootTopGames = response.rootTopGames
         viewController?.displaySavedUpdateTopGamesCoreData(viewModel: viewModel)
     }
     
@@ -37,7 +37,7 @@ class ListTopGamesPresenter: ListTopGamesPresentationLogic {
             message = String.loc("NOT_FETCHED_CORE_DATA_ALERT_MESSAGE")
         }
         viewModel.alertMessage = message
-        viewModel.games = response.games
+        viewModel.rootTopGames = response.rootTopGames
         viewController?.displayFetchedTopGamesCoreData(viewModel: viewModel)
     }
     
@@ -49,7 +49,7 @@ class ListTopGamesPresenter: ListTopGamesPresentationLogic {
             message = String.loc("NOT_DELETED_CORE_DATA_ALERT_MESSAGE")
         }
         viewModel.alertMessage = message
-        viewModel.games = response.games
+        viewModel.rootTopGames = response.rootTopGames
         viewController?.displayDeletedTopGamesCoreData(viewModel: viewModel)
     }
     
@@ -68,7 +68,7 @@ class ListTopGamesPresenter: ListTopGamesPresentationLogic {
             
             viewController?.displayFetchedTopGames(viewModel: viewModel)
         } else{
-            viewModel.games = response.games
+            viewModel.rootTopGames = response.rootTopGames
             viewController?.displayFetchedTopGames(viewModel: viewModel)
             
         }

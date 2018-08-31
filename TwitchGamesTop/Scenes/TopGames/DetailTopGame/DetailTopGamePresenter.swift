@@ -16,7 +16,7 @@ class DetailTopGamePresenter: DetailTopGamePresentationLogic {
     //MARK: Services Methods
     func presentFetchedTopGames(response: TopGameDetail.Response) {
         var viewModel = TopGameDetail.ViewModel()
-        viewModel.games = response.games
+        viewModel.game = response.game
         if response.error != nil {
             viewModel.error = String.loc("NO_DETAIL_GAME")
         }

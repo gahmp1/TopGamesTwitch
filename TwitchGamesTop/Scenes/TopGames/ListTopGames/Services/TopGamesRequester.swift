@@ -11,11 +11,11 @@ import CoreData
 class TopGamesRequester: ListTopGamesWorkerLogic {
 
     //MARK: CoreData
-    func saveUpdateTopGamesInCoreData(url: String, listGames: [Games], completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
+    func saveUpdateTopGamesInCoreData(url: String, listGames: [Game], completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
         checkTopGamesInCoreData(url: url, listGames: listGames, completionHandler: completionHandler)
     }
     
-    func checkTopGamesInCoreData(url: String, listGames: [Games], completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
+    func checkTopGamesInCoreData(url: String, listGames: [Game], completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
         let _ = hasDeletedTopGames()
         saveTopGamesInCoreData(url: url, listGames: listGames, completionHandler: completionHandler)
 
@@ -37,7 +37,7 @@ class TopGamesRequester: ListTopGamesWorkerLogic {
         completionHandler(TopGamesCoreDataWorkerResult.Finish(hasFinished: hasDeletedTopGames()))
     }
     
-    private func saveTopGamesInCoreData(url: String, listGames: [Games], completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
+    private func saveTopGamesInCoreData(url: String, listGames: [Game], completionHandler: @escaping FetchTopGamesCoreDataCompletionHandler) {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             let managedObjectContext = appDelegate.persistentContainer.viewContext
             if let topGamesCoredataDescription = NSEntityDescription.entity(forEntityName: "TopGamesCoredata", in: managedObjectContext) {
@@ -71,10 +71,10 @@ class TopGamesRequester: ListTopGamesWorkerLogic {
     }
     
     private func convertCoreDataToRootTopGames (topGamesCoredata: TopGamesCoredata) -> RootTopGames? {
-        var topGames = [Games]()
+        var topGames = [Game]()
         for gameCoreData in (topGamesCoredata.games!.allObjects as? [GameCoredata])! {
-            let game = Game(name: gameCoreData.name ?? String.loc("NO_GAME_NAME"), image: gameCoreData.image ?? "", logo: Logo(large: gameCoreData.logoLarge ?? String.loc("DEFAULT_URL_IMAGE")))
-            let games = Games(channels: Int(gameCoreData.channels), viewers: Int(gameCoreData.viewers), game: game)
+            let game = GameInfo(name: gameCoreData.name ?? String.loc("NO_GAME_NAME"), image: gameCoreData.image ?? "", logo: Logo(large: gameCoreData.logoLarge ?? String.loc("DEFAULT_URL_IMAGE")))
+            let games = Game(channels: Int(gameCoreData.channels), viewers: Int(gameCoreData.viewers), game: game)
             topGames.append(games)
         }
         let rootTopGames = RootTopGames(_links: Links(next: topGamesCoredata.nextUrl!), top: topGames)

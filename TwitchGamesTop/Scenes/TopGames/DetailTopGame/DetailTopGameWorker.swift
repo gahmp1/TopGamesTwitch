@@ -16,7 +16,7 @@ class DetailTopGameWorker {
     
     
     //MARK: Services Methods
-    func fetchTopGames(game: Games, completionHandler: @escaping FetchDetailTopGameCompletionHandler) {
+    func fetchTopGames(game: Game, completionHandler: @escaping FetchDetailTopGameCompletionHandler) {
         self.topGamesEngine.fetchDetailTopGame(game: game, completionHandler: { (result) in
             completionHandler(result)
         })
@@ -27,11 +27,11 @@ class DetailTopGameWorker {
 protocol DetailTopGameWorkerLogic {
    
     //MARK: Services
-    func fetchDetailTopGame(game: Games, completionHandler: @escaping FetchDetailTopGameCompletionHandler)
+    func fetchDetailTopGame(game: Game, completionHandler: @escaping FetchDetailTopGameCompletionHandler)
 }
 
 // MARK: - Typealias
-typealias FetchDetailTopGameCompletionHandler = (DetailTopGameWorkerResult<Games>) -> Void
+typealias FetchDetailTopGameCompletionHandler = (DetailTopGameWorkerResult<Game>) -> Void
 
 // MARK: - Results
 enum DetailTopGameWorkerResult<U>
