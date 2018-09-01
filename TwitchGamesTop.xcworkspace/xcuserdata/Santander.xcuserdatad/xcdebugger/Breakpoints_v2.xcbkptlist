@@ -4,18 +4,27 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.IDETestFailureBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            breakpointStackSelectionBehavior = "1">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TwitchGamesTop/Scenes/TopGames/ListTopGames/ListTopGamesInteractor.swift"
-            timestampString = "557369630.9027441"
+            filePath = "TwitchGamesTop/Scenes/TopGames/ListTopGames/ListTopGamesPresenter.swift"
+            timestampString = "557521497.495235"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "fetchTopGames(request:)"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "presentFetchedTopGames(response:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +34,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TwitchGamesTop/Scenes/TopGames/ListTopGames/ListTopGamesInteractor.swift"
-            timestampString = "557369630.903155"
+            filePath = "TwitchGamesTopTests/Services/RequesterTest.swift"
+            timestampString = "557521497.4955389"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
-            landmarkName = "fetchTopGames(request:)"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "testCallListTopGamesRequest()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,45 +50,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TwitchGamesTopTests/TwitchGamesTopTests.swift"
-            timestampString = "557367300.279371"
+            filePath = "TwitchGamesTopTests/Services/RequesterTest.swift"
+            timestampString = "557521577.9771481"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "13"
-            endingLineNumber = "13"
-            landmarkName = "TwitchGamesTopTests"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TwitchGamesTop/Scenes/TopGames/ListTopGames/Services/TopGamesRequester.swift"
-            timestampString = "557409932.4747339"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
-            landmarkName = "fetchTopGames(url:completionHandler:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TwitchGamesTop/Scenes/TopGames/ListTopGames/Services/TopGamesRequester.swift"
-            timestampString = "557409932.475821"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "parseCell(data:)"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "testCallListTopGamesRequest()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -97,31 +97,9 @@ class ListTopGamesInteractor: ListTopGamesBusinessLogic {
                 self.presenter?.presentFetchedTopGames(response: response)
                 break
             case .Failure(let error):
-                switch error{
-                case .RequestError(let requestError):
-                    switch requestError{
-                    case .NoInternetAccess:
-                        response.rootTopGames = nil
-                        response.noInternet = true
-                        self.presenter?.presentFetchedTopGames(response: response)
-                        break
-                    case .CannotFetch( _):
-                        response.rootTopGames = nil
-                        response.noInternet = true
-                        self.presenter?.presentFetchedTopGames(response: response)
-                        break
-                    default:
-                        response.rootTopGames = nil
-                        response.noInternet = true
-                        self.presenter?.presentFetchedTopGames(response: response)
-                        break
-                    }
-                    break
-                default:
-                    response.rootTopGames = nil
-                    self.presenter?.presentFetchedTopGames(response: response)
-                    break
-                }
+                response.rootTopGames = nil
+                response.requesterError = error
+                self.presenter?.presentFetchedTopGames(response: response)
             }
         })
     }

@@ -59,9 +59,40 @@ class ListTopGamesPresenter: ListTopGamesPresentationLogic {
     func presentFetchedTopGames(response: TopGames.Service.Response) {
         var viewModel = TopGames.Service.ViewModel()
         
-        if response.noInternet{
-            let title = String.loc("NO_INTERNET_ACCESS_ALERT_TITLE")
-            let message = String.loc("NO_INTERNET_ACCESS_ALERT_MESSAGE")
+        if let requesterError = response.requesterError{
+            let title = String.loc("DEFAULT_ALERT_TITLE")
+            var message = ""
+            switch requesterError {
+            case .BadRequest:
+                message = String.loc("NO_INTERNET_ACCESS_ALERT_MESSAGE")
+                break
+            case .Forbidden:
+                message = String.loc("FORBIDDEN_REQUEST_ALERT_MESSAGE")
+                break
+            case .NoInternetAccess:
+                message = String.loc("NO_INTERNET_ACCESS_ALERT_MESSAGE")
+                break
+            case .NotFound:
+                message = String.loc("NOT_FOUND_REQUEST_ALERT_MESSAGE")
+                break
+            case .RequestTimeout:
+                message = String.loc("REQUEST_TIMEOUT_REQUEST_ALERT_MESSAGE")
+                break
+            case .Unauthorized:
+                message = String.loc("UNAUTHORIZED_REQUEST_ALERT_MESSAGE")
+                break
+            case .WrongURLFormat:
+                message = String.loc("DEFAULT_REQUEST_ALERT_MESSAGE")
+                break
+            case .ParseError:
+                message = String.loc("DEFAULT_REQUEST_ALERT_MESSAGE")
+                break
+            case .DefaultError:
+                message = String.loc("DEFAULT_REQUEST_ALERT_MESSAGE")
+                break
+            case .NoData:
+                message = String.loc("DEFAULT_REQUEST_ALERT_MESSAGE")
+            }
             
             viewModel.alertTitle = title
             viewModel.alertMessage = message

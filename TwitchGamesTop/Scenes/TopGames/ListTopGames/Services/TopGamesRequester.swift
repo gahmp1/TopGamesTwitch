@@ -5,9 +5,8 @@
 //
 
 import Foundation
-import Alamofire
 import CoreData
-
+import Alamofire
 class TopGamesRequester: ListTopGamesWorkerLogic {
 
     //MARK: CoreData
@@ -114,39 +113,22 @@ class TopGamesRequester: ListTopGamesWorkerLogic {
     
     //MARK: Services
     func fetchTopGames(url:String, completionHandler: @escaping FetchTopGamesCompletionHandler) {
-        
-        guard let url = URL(string: url) else {
-            
-            completionHandler(TopGamesWorkerResult.Failure(error: TopGamesWorkerError.RequestError(RequesterError.WrongURLFormat)))
-            return
-        }
-        
         let headers : HTTPHeaders = ["Client-ID": "426elxfoq1u2l77a10fu6ull62z1da"]
         
-        Alamofire.request(url,
-                          method: .get, headers: headers)
-            .validate()
-            .responseJSON { response in
-                guard response.result.isSuccess else {
-                    if let error = response.result.error {
-                        print("Error while fetching Top Games: \(String(describing: error))")
-                        completionHandler(TopGamesWorkerResult.Failure(error: TopGamesWorkerError.RequestError(RequesterError.CannotFetch(error))))
-                    }
-                    return
-                }
-                
-                guard let data = response.data  else {
-                        print("Malformed data received from fetchTopGames service")
-                        completionHandler(TopGamesWorkerResult.Failure(error: TopGamesWorkerError.ParseError))
-                        return
-                }
-                if let parsedCell = self.parseCell(data: data) {
+        
+        Requester.default.callRequest(url: url, headers: headers) { (requesterResult) in
+            switch requesterResult {
+            case .Success(result: let response):
+                if let parsedCell = self.parseCell(data: response) {
                     completionHandler(TopGamesWorkerResult.Success(result: parsedCell))
                 } else {
-                    completionHandler(TopGamesWorkerResult.Failure(error: TopGamesWorkerError.ParseError))
+                    completionHandler(TopGamesWorkerResult.Failure(error: RequesterError.ParseError))
                 }
-                
-            
+                break
+            case .Failure(error: let requesterError):
+                completionHandler(TopGamesWorkerResult.Failure(error: requesterError))
+                break
+            }
         }
     }
     

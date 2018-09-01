@@ -3,9 +3,15 @@
   TwitchGamesTop
   Copyright © 2018 Joao Gabriel. All rights reserved.
 */
-// MARK: NO INTERNET ALERT
-"NO_INTERNET_ACCESS_ALERT_TITLE" = "Sem internet";
-"NO_INTERNET_ACCESS_ALERT_MESSAGE" = "Ligue a internet e tente novamente";
+// MARK: Requester Errors Messages
+"DEFAULT_REQUEST_ALERT_MESSAGE" = "Não foi possível listar os Top Games Twitch";
+"NO_INTERNET_ACCESS_ALERT_MESSAGE" = "Verifique sua conexão com a internet e tente novamente";
+"UNAUTHORIZED_REQUEST_ALERT_MESSAGE" = "Você precisa se autenticar para listar os Top Games Twitch";
+"FORBIDDEN_REQUEST_ALERT_MESSAGE" = "Você não tem autorização para listar os Top Games Twitch";
+"NOT_FOUND_REQUEST_ALERT_MESSAGE" = "Não foi possível achar a lista dos Top Games Twitch";
+"REQUEST_TIMEOUT_REQUEST_ALERT_MESSAGE" = "Não foi possível listar os Top Games Twitch, pois ultrapassou o tempo de espera";
+
+//MARK: CoreData Messages
 "NOT_SAVED_UPDATED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos não foi atualizada.";
 "SAVED_UPDATED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos foi atualizada com sucesso.";
 "NOT_FETCHED_CORE_DATA_ALERT_MESSAGE" = "Lista de Jogos não foi encontrada.";
@@ -16,9 +22,14 @@
 "OFFLINE_DATA_TITLE" = "Dados Offline";
 "OFFLINE_DATA_TITLE_MESSAGE" = "Deseja carregar seus Jogos Salvos?";
 "OFFLINE_SAVE_DATA_TITLE_MESSAGE" = "Deseja salvar sua lista de Jogos?";
-"CANCEL_MESSAGE" = "Não";
-"ACCEPT_MESSAGE" = "Sim";
+
+//MARK: Defaults Messages
+"DEFAULT_ALERT_TITLE" = "Atenção";
+"CANCEL_MESSAGE" = "Cancelar";
+"ACCEPT_MESSAGE" = "Ok";
 "NO_GAME_NAME" = "Produto Sem Nome";
 "NO_DETAIL_GAME" = "Não foi possível carregar o detalhe do Jogo";
+
+//MARK: URLs Defaults
 "FIRST_10_TOP_GAMES" = "https://api.twitch.tv/kraken/games/top?limit=10&offset=0";
 "DEFAULT_URL_IMAGE" = "https://static-cdn.jtvnw.net/ttv-logoart/Hearthstone-240x144.jpg";

@@ -61,31 +61,13 @@ typealias FetchTopGamesCoreDataCompletionHandler = (TopGamesCoreDataWorkerResult
 enum TopGamesWorkerResult<U>
 {
     case Success(result: U)
-    case Failure(error: TopGamesWorkerError)
+    case Failure(error: RequesterError)
 }
 
 enum TopGamesCoreDataWorkerResult<U>
 {
     case Success(result: U)
     case Finish(hasFinished: Bool)
-}
-
-
-// MARK: - Erros
-enum TopGamesWorkerError: Error
-{
-    case RequestError(RequesterError)
-    case ParseError
-}
-
-// MARK: - Erros
-enum RequesterError: Error
-{
-    case CannotFetch(Error)
-    case NoInternetAccess
-    case WrongURLFormat
-    case NoData
-    case Default
 }
 
 

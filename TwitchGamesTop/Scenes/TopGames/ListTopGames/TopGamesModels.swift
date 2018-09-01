@@ -18,7 +18,7 @@ enum TopGames
         struct Response
         {
             var rootTopGames:RootTopGames?
-            var noInternet:Bool = false
+            var requesterError:RequesterError?
         }
         struct ViewModel
         {

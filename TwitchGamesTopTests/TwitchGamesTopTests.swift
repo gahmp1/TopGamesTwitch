@@ -5,26 +5,36 @@
 //  Created by Banco Santander Brasil on 30/08/18.
 //  Copyright © 2018 Joao Gabriel. All rights reserved.
 //
-
-import XCTest
 @testable import TwitchGamesTop
-
+import XCTest
 
 class TwitchGamesTopTests: XCTestCase {
     
+    //MARK:Properties
+    var sut : RootTopGames!
+    
+    //MARK:Life Cycle Test
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        sut = Mock.RootTopGamesMock.fistRootTopGamesMock
+        
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        sut = nil
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    // XCTAssert to test TopGamesModel
+    func testRootGamesAreCompleted() {
+        //1. given
+        let link = String.loc("FIRST_10_TOP_GAMES")
+        
+        //2. when
+        sut._links = Links(next: link)
+        
+        //3. then
+        XCTAssertEqual(sut._links.next, link, "Next URL isnt valid")
     }
     
     

@@ -301,7 +301,8 @@ extension ListTopGamesViewController: ListTopGamesDisplayLogic {
                 }
                 if let title = viewModel.alertTitle,let message = viewModel.alertMessage{
                     let alert = UIAlertController.init(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { (action) in
+                    alert.addAction(UIAlertAction(title: String.loc("CANCEL_MESSAGE"), style: UIAlertActionStyle.default, handler: { (action) in }))
+                    alert.addAction(UIAlertAction(title: String.loc("ACCEPT_MESSAGE"), style: UIAlertActionStyle.default, handler: { (action) in
                         self.middleLoading.startAnimating()
                         self.doFetchFirstTopGames()
 
